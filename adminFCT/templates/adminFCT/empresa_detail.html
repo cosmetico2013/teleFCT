@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p>nombre: {{ object.nombre }}</p>
+    <h2>Contactos <a href="{% url 'contactos-add' %}">Añadir</a></h2>
+    {% for contac in object.contactos_set.all %}
+        <p>nombre: <a href="{% url 'contactos-detail' contac.id %}">{{ contac.nombre }}</a>
+             <a href="{% url 'contactos-update' contac.id %}">EDITART</a>
+             <a href="{% url 'contactos-delete' contac.id %}">ELIMINAR</a> 
+        </p>
+    {% endfor %}
+{% endblock %}
