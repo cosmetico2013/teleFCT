@@ -1,18 +1,84 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
-class Empresa (models.Model):
+
+class User(AbstractUser):
+    is_teacher = models.BooleanField(default=False)
+
+
+class Profesor(models.Model):
+    user = models.OneToOneField('User', on_delete=models.CASCADE, primary_key=True)
     nombre = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nombre
+
+class Alumno(models.Model):
+    user = models.OneToOneField('User', on_delete=models.CASCADE, primary_key=True)
+    nomAlu = models.CharField(max_length=100)
+    movil = models.CharField(max_length=20)
+    mail = models.EmailField()
+    curri = models.URLField() #curriculum
+    proy = models.URLField() #direccion de github
+    fnac = models.DateTimeField() #fecha de nacimiento
+    sex = models.CharField(max_length=1)
+    dis = models.DecimalField(max_digits=3, decimal_places=0, default=0) #discapacidad en porcentaje
+    cpAlu = models.DecimalField(max_digits=20, decimal_places=0, default=0)
+
+    def __str__(self):
+        return self.nomAlu
+
+
+class Forma(models.Model):
+    desfor = models.CharField(max_length=15)
+
+
+class Ramo(models.Model):
+    desRam = models.CharField(max_length=50)
+
+
+class Tamano(models.Model): #tamaños de las empresas
+    destam = models.CharField(max_length=15)
+
+
+class Empresa(models.Model):
+    forma = models.ForeignKey('Forma', on_delete=models.CASCADE)
+    ramo = models.ForeignKey('Ramo', on_delete=models.CASCADE)
+    tam = models.ForeignKey('Tamano', on_delete=models.CASCADE)
+    nombre = models.CharField(max_length=100)
+    logotipo = models.FileField(upload_to="img/")
+    razon = models.CharField(max_length=100) #es la razon social, nombre que tiene la empresa en el registro
+    numtra = models.DecimalField(max_digits=10, decimal_places=0, default=0) #numero de trabajadores
     
     def __str__(self):
         return str(self.nombre)
 
 
+class Ciclo(models.Model):
+    abreviación = models.CharField(max_length=100)
+    
+    def __str__(self):
+        return self.abreviación
+
+
+
+class Trayectos(models.Model):
+    alumno = models.ForeignKey('Alumno', on_delete=models.CASCADE)
+    ciclo = models.ForeignKey('Ciclo', on_delete=models.CASCADE)
+    fpromo = models.DateTimeField()
+
+    def __str__(self):
+        return self.alumno+' '+self.ciclo
+
+
 class Sede (models.CharField):
     Empresa = models.ForeignKey('Empresa', on_delete=models.CASCADE)
-    #cpsed = models.CharField(max_length=100)
+    cpsed = models.DecimalField(max_digits=20, decimal_places=0, default=0)
+
+    def __str__(self):
+        return str(self.cpsed)
 
 
 class Contacto (models.Model):
@@ -26,59 +92,56 @@ class Contacto (models.Model):
 
 class Contrato (models.Model):
     empresa = models.ForeignKey('Empresa', on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    #pra = models.DecimalField(max_digits=10,decimal_places=0, default=0)
+    alumno = models.ForeignKey('Alumno', on_delete=models.CASCADE)
+    pra = models.BooleanField() #si es en practica
     inicio = models.DateTimeField(blank=True, null=True)
     fin = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
-        return (str(self.empresa)+" "+str(self.user))
-
-
-class Cliclo (models.Model):
-    abreviación = models.CharField(max_length=100)
-    
-    def __str__(self):
-        return self.abreviación
+        return (str(self.empresa)+" "+str(self.alumno))
 
 
 class Empleado(models.Model):
     nombre = models.CharField(max_length=100)
 
 
+class Medio(models.Model): # medio por el que se envio el mensaje
+    nomMed = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.nomMed
+
+
 class Mensaje(models.Model):
-    emitido = models.ForeignKey('Empleado', on_delete=models.CASCADE)
+    #emitido = models.ForeignKey('Empleado', on_delete=models.CASCADE)
     recibido = models.ForeignKey('Empleado', on_delete=models.CASCADE)
-    #hilos = models.ManyToManyField('Mensaje')
-    #medio = models.CharField(max_length=100)
+    medio = models.ForeignKey('Medio', on_delete=models.SET_NULL, null=True)
+    hilos = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
     contenido = models.CharField(max_length=1000)
-    #fmes = models.CharField(max_length=100)
-
-
-class Profesor(models.Model):
-    nombre = models.CharField(max_length=100)
+    fmen = models.DateTimeField(blank=True, null=True) #fecha del mensaje 
 
 
 class practica(models.Model):
-    alumno = models.ForeignKey(User, on_delete=models.CASCADE)
+    alumno = models.ForeignKey('Alumno', on_delete=models.CASCADE)
     ciclo = models.ForeignKey('Ciclo', on_delete=models.CASCADE)
     profesor = models.ForeignKey('Profesor', on_delete=models.CASCADE)
     contacto = models.ForeignKey('Contacto', on_delete=models.CASCADE)
     fechaInicio = models.DateTimeField(blank=True, null=True)
     fechaFin = models.DateTimeField(blank=True, null=True)
-    tele = models.CharField(max_length=100)
-    erasmus = models.CharField(max_length=100)
+    tele = models.BooleanField() #si es un teletravajo
+    erasmus = models.BooleanField() #si es un erasmus
 
 
-class Tool(models.Model):
+
+class Tool(models.Model): #las erramientas que prorciona
     nombre = models.CharField(max_length=100)
-    #lenguaje = models.CharField(max_length=100)
+    lenguaje = models.CharField(max_length=1) #S es un lenguaje o N si no lo es
 
     def __str__(self):
         return self.nombre
 
 
-class Requisito(models.Model):
+class Requisito(models.Model): #
     nombre = models.CharField(max_length=100)
 
     def __str__(self):
@@ -108,9 +171,9 @@ class Oferta(models.Model):
     competencias = models.ManyToManyField('Perfil')
     bibliotecas = models.ManyToManyField('Funcion')
     nombre = models.CharField(max_length=100)
-    #fofe = models.CharField(max_length=100)
-    #kas = models.CharField(max_length=100)
-    #tele = models.CharField(max_length=100)
+    fofe = models.DateTimeField(blank=True, null=True) #Fecha de oferta
+    kas = models.DecimalField(max_digits=10, decimal_places=2, default=0) #salario anual
+    tele = models.BooleanField() #teletravajo 
 
     def __str__(self):
         return self.nombre

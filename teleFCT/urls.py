@@ -19,6 +19,7 @@ from django.urls.conf import include
 from adminFCT.views import index
 from adminFCT.views import EmpresaDeleteView, EmpresaDetailView, EmpresaListView, EmpresaCreateView, EmpresaUpdateView
 from adminFCT.views import ContactosCreateView, ContactosdelteView, ContactosDetailView, ContactosUpdateView
+from adminFCT.views import ProfesorSignUpView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -40,4 +41,6 @@ urlpatterns = [
     path('contactos/add', ContactosCreateView.as_view(), name='contactos-add'),
     path('contactos/<int:pk>/update', ContactosUpdateView.as_view(), name='contactos-update'),
     path('contactos/<int:pk>/delete', ContactosdelteView.as_view(), name='contactos-delete'),
+
+    path('accounts/signup/teacher/', ProfesorSignUpView.as_view(), name='profesor_signup'),
 ]

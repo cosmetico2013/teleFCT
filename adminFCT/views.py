@@ -3,10 +3,30 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.contrib.auth import login
+from django.shortcuts import redirect
 
 from adminFCT.models import Empresa, Contacto, Contrato
+from adminFCT.models import User
+from teleFCT.forms import ProfesorSignUpForm
 
 # Create your views here.
+
+#login profesor
+class ProfesorSignUpView(CreateView):
+    model = User
+    form_class = ProfesorSignUpForm
+    template_name = 'registration/signup_form.html'
+
+    def get_context_data(self, **kwargs):
+        kwargs['user_type'] = 'Profesor'
+        return super().get_context_data(**kwargs)
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('/')
+
 
 #vista de index
 def index(request):
