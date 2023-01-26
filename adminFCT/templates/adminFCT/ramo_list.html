@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p><a href=" {% url 'ramo-add' %} ">añadir</a></p>
+    {% for ramo in object_list %}
+        <p>
+            {{ ramo.desRam }}
+            <a href=" {% url 'ramo-update' ramo.id %} ">update</a>
+            <a href=" {% url 'ramo-delete' ramo.id %} ">detete</a>
+        </p>
+    {% endfor %}
+{% endblock %}

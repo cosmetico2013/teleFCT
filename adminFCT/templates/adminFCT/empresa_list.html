@@ -4,7 +4,7 @@
     <p><a href=" {% url 'empresa-add' %} ">añadir</a></p>
     {% for empresa in object_list %}
         <p>
-            <a href=" {% url 'empresa-detail' empresa.id %} ">{{ empresa.nombre }}</a>
+            <a href=" {% url 'empresa-detail' empresa.id %} ">{{ empresa.nomEmp }}</a>
             <a href=" {% url 'empresa-update' empresa.id %} ">update</a>
             <a href=" {% url 'empresa-delete' empresa.id %} ">detete</a>
         </p>

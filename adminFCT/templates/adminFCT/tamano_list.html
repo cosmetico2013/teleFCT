@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p><a href=" {% url 'tamano-add' %} ">añadir</a></p>
+    {% for tamano in object_list %}
+        <p>
+            {{ tamano.desTam }}
+            <a href=" {% url 'tamano-update' tamano.id %} ">update</a>
+            <a href=" {% url 'tamano-delete' tamano.id %} ">detete</a>
+        </p>
+    {% endfor %}
+{% endblock %}

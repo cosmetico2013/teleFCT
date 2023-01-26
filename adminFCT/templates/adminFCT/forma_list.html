@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p><a href=" {% url 'forma-add' %} ">añadir</a></p>
+    {% for forma in object_list %}
+        <p>
+            {{ forma.desFor }}
+            <a href=" {% url 'forma-update' forma.id %} ">update</a>
+            <a href=" {% url 'forma-delete' forma.id %} ">detete</a>
+        </p>
+    {% endfor %}
+{% endblock %}

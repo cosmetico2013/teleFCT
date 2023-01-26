@@ -32,36 +32,45 @@ class Alumno(models.Model):
 
 
 class Forma(models.Model):
-    desfor = models.CharField(max_length=15)
+    desFor = models.CharField(max_length=15)
+
+    def __str__(self):
+        return self.desFor
 
 
 class Ramo(models.Model):
     desRam = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.desRam
+
 
 class Tamano(models.Model): #tamaños de las empresas
-    destam = models.CharField(max_length=15)
+    desTam = models.CharField(max_length=15)
+
+    def __str__(self):
+        return self.desTam
 
 
 class Empresa(models.Model):
-    forma = models.ForeignKey('Forma', on_delete=models.CASCADE)
-    ramo = models.ForeignKey('Ramo', on_delete=models.CASCADE)
-    tam = models.ForeignKey('Tamano', on_delete=models.CASCADE)
-    nombre = models.CharField(max_length=100)
-    logotipo = models.FileField(upload_to="img/")
+    forma = models.ForeignKey('Forma', on_delete=models.SET_NULL, null=True)
+    ramo = models.ForeignKey('Ramo', on_delete=models.SET_NULL, null=True)
+    tam = models.ForeignKey('Tamano', on_delete=models.SET_NULL, null=True)
+    nomEmp = models.CharField(max_length=100)
+    logo = models.FileField(upload_to="img/", null=True, blank=True)
     razon = models.CharField(max_length=100) #es la razon social, nombre que tiene la empresa en el registro
-    numtra = models.DecimalField(max_digits=10, decimal_places=0, default=0) #numero de trabajadores
+    numTra = models.DecimalField(max_digits=10, decimal_places=0, default=0) #numero de trabajadores
+    web = models.URLField(max_length=100, null=True, blank=True) 
     
     def __str__(self):
-        return str(self.nombre)
+        return str(self.nomEmp)
 
 
 class Ciclo(models.Model):
-    abreviación = models.CharField(max_length=100)
+    abre = models.CharField(max_length=100, unique=True)
     
     def __str__(self):
-        return self.abreviación
-
+        return self.abre    
 
 
 class Trayectos(models.Model):
@@ -70,10 +79,11 @@ class Trayectos(models.Model):
     fpromo = models.DateTimeField()
 
     def __str__(self):
-        return self.alumno+' '+self.ciclo
+        #return self.alumno+' '+self.ciclo.abre
+        return self.alumno
 
 
-class Sede (models.CharField):
+class Sede(models.CharField):
     Empresa = models.ForeignKey('Empresa', on_delete=models.CASCADE)
     cpsed = models.DecimalField(max_digits=20, decimal_places=0, default=0)
 
@@ -84,10 +94,10 @@ class Sede (models.CharField):
 class Contacto (models.Model):
     empresa = models.ForeignKey('Empresa', on_delete=models.CASCADE)
     nombre = models.CharField(max_length=100)
-    correo = models.CharField(max_length=100)
+    mailCon = models.CharField(max_length=100)
 
     def __str__(self):
-        return (str(self.nombre)+" "+str(self.apellidos))
+        return self.nombre
 
 
 class Contrato (models.Model):
@@ -121,7 +131,7 @@ class Mensaje(models.Model):
     fmen = models.DateTimeField(blank=True, null=True) #fecha del mensaje 
 
 
-class practica(models.Model):
+class Practica(models.Model):
     alumno = models.ForeignKey('Alumno', on_delete=models.CASCADE)
     ciclo = models.ForeignKey('Ciclo', on_delete=models.CASCADE)
     profesor = models.ForeignKey('Profesor', on_delete=models.CASCADE)

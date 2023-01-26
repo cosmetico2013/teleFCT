@@ -1,7 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p>nombre: {{ object.nombre }}</p>
+    <p>nombre: {{ object.nomEmp }}</p>
+    <p>logo: {{ object.logo }}</p>
+    <p>razon: {{ object.razon }}</p>
+    <p>numero de trabajadores: {{ object.numTra }}</p>
+    <p>web: <a href="{{ object.web }}">{{ object.web }}</a></p>
+    <p>forma: {{ object.forma }}</p>
+    <p>ramo: {{ object.ramo }}</p>
+    <p>tam: {{ object.tam }}</p>
     <h2>Contactos <a href="{% url 'contactos-add' %}">Añadir</a></h2>
     {% for contac in object.contactos_set.all %}
         <p>nombre: <a href="{% url 'contactos-detail' contac.id %}">{{ contac.nombre }}</a>

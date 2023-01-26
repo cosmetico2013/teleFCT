@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p><a href=" {% url 'ciclo-add' %} ">añadir</a></p>
+    {% for ciclo in object_list %}
+        <p>
+            {{ ciclo.abre }}
+            <a href=" {% url 'ciclo-update' ciclo.id %} ">update</a>
+            <a href=" {% url 'ciclo-delete' ciclo.id %} ">detete</a>
+        </p>
+    {% endfor %}
+{% endblock %}
