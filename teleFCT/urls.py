@@ -24,7 +24,9 @@ from adminFCT.views import RamoListView, RamoCrateView, RamoUpdateView, RamoDele
 from adminFCT.views import TamanoListView, TamanoCreateView, TamanoUpdateView, TamanoDeleteView
 from adminFCT.views import EmpresaDeleteView, EmpresaDetailView, EmpresaListView, EmpresaCreateView, EmpresaUpdateView
 from adminFCT.views import CicloListView, CicloCreateView, CicloUpdateView, CicloDeleteView
-
+from adminFCT.views import TrayectoListView, TrayectoDetailView, TrayectoCreateView, TrayectoUpdateView, TrayectoDeleteView
+from adminFCT.views import SedeListView, SedeDetailView, SedeCreateView, SedeUpdateView, SedeDeleteView
+from adminFCT.views import ContratoListView, ContratoDetailView, ContratoCreateView, ContratoUpdateView, ContratoDeleteView
 
 from adminFCT.views import ProfesorSignUpView
 
@@ -71,11 +73,32 @@ urlpatterns = [
     path('ciclo/<int:pk>/update', CicloUpdateView.as_view(), name='ciclo-update'),
     path('ciclo/<int:pk>/delete', CicloDeleteView.as_view(), name='ciclo-delete'),
 
+    #url para trayecto
+    path('trayecto/', TrayectoListView.as_view(), name='trayecto-list'),
+    path('trayecto/<int:pk>', TrayectoDetailView.as_view(), name='trayecto-detail'),
+    path('trayecto/add', TrayectoCreateView.as_view(), name='trayecto-add'),
+    path('trayecto/<int:pk>/update', TrayectoUpdateView.as_view(), name='trayecto-update'),
+    path('trayecto/<int:pk>/delete', TrayectoDeleteView.as_view(), name='trayecto-delete'),
+
+    #url para sede
+    path('sede/', SedeListView.as_view(), name='sede-list'),
+    path('sede/<int:pk>', SedeDetailView.as_view(), name='sede-detail'),
+    path('sede/add', SedeCreateView.as_view(), name='sede-add'),
+    path('sede/<int:pk>/update', SedeUpdateView.as_view(), name='sede-update'),
+    path('sede/<int:pk>/delete', SedeDeleteView.as_view(), name='sede-delete'),
+
     #url para contactos
     path('contactos/<int:pk>', ContactosDetailView.as_view(), name='contactos-detail'),
     path('contactos/add', ContactosCreateView.as_view(), name='contactos-add'),
     path('contactos/<int:pk>/update', ContactosUpdateView.as_view(), name='contactos-update'),
     path('contactos/<int:pk>/delete', ContactosdeleteView.as_view(), name='contactos-delete'),
+
+    #url para contrato
+    path('contrato/', ContratoListView.as_view(), name='contrato-list'),
+    path('contrato/<int:pk>', ContratoDetailView.as_view(), name='contrato-detail'),
+    path('contrato/add', ContratoCreateView.as_view(), name='contrato-add'),
+    path('contrato/<int:pk>/update', ContratoUpdateView.as_view(), name='contrato-update'),
+    path('contrato/<int:pk>/detele', ContratoDeleteView.as_view(), name='contrato-delete'),
 
     path('accounts/signup/teacher/', ProfesorSignUpView.as_view(), name='profesor_signup'),
 ]

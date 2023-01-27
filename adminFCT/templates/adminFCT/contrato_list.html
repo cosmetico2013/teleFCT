@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p><a href=" {% url 'contrato-add' %} ">añadir</a></p>
+    {% for contrato in object_list %}
+        <p>
+            <a href=" {% url 'contrato-detail' contrato.id %} ">{{ contrato.alumno.nomAlu }} {{ contrato.empresa.nomEmp }}</a>
+            <a href=" {% url 'contrato-update' contrato.id %} ">update</a>
+            <a href=" {% url 'contrato-delete' contrato.id %} ">detete</a>
+        </p>
+    {% endfor %}
+{% endblock %}

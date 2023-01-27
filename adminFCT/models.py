@@ -73,7 +73,7 @@ class Ciclo(models.Model):
         return self.abre    
 
 
-class Trayectos(models.Model):
+class Trayecto(models.Model):
     alumno = models.ForeignKey('Alumno', on_delete=models.CASCADE)
     ciclo = models.ForeignKey('Ciclo', on_delete=models.CASCADE)
     fpromo = models.DateTimeField()
@@ -83,12 +83,12 @@ class Trayectos(models.Model):
         return self.alumno
 
 
-class Sede(models.CharField):
-    Empresa = models.ForeignKey('Empresa', on_delete=models.CASCADE)
+class Sede(models.Model):
+    empresa = models.ForeignKey('Empresa', on_delete=models.CASCADE)
     cpsed = models.DecimalField(max_digits=20, decimal_places=0, default=0)
 
     def __str__(self):
-        return str(self.cpsed)
+        return self.empresa.nomEmp+' '+str(self.cpsed)
 
 
 class Contacto (models.Model):
@@ -104,8 +104,8 @@ class Contrato (models.Model):
     empresa = models.ForeignKey('Empresa', on_delete=models.CASCADE)
     alumno = models.ForeignKey('Alumno', on_delete=models.CASCADE)
     pra = models.BooleanField() #si es en practica
-    inicio = models.DateTimeField(blank=True, null=True)
-    fin = models.DateTimeField(blank=True, null=True)
+    iniCon = models.DateTimeField(blank=True, null=True)
+    finCon = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return (str(self.empresa)+" "+str(self.alumno))

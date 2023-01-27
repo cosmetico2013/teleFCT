@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p><a href=" {% url 'trayecto-add' %} ">añadir</a></p>
+    {% for trayecto in object_list %}
+        <p>
+            <a href=" {% url 'trayecto-detail' trayecto.id %} ">{{ trayecto.alumno }} {{ trayecto.ciclo }}</a>
+            <a href=" {% url 'trayecto-update' trayecto.id %} ">update</a>
+            <a href=" {% url 'trayecto-delete' trayecto.id %} ">detete</a>
+        </p>
+    {% endfor %}
+{% endblock %}

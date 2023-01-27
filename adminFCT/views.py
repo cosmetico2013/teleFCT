@@ -6,7 +6,7 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.contrib.auth import login
 from django.shortcuts import redirect
 
-from adminFCT.models import Empresa, Contrato, Profesor, Alumno, User, Trayectos, Ciclo, Practica
+from adminFCT.models import Empresa, Contrato, Profesor, Alumno, User, Trayecto, Ciclo, Practica
 from adminFCT.models import Empleado, Mensaje, Contacto, Sede, Oferta, Tool, Perfil, Funcion, Requisito
 from adminFCT.models import Forma, Ramo, Tamano, Medio
 
@@ -148,7 +148,55 @@ class CicloUpdateView(UpdateView):
 
 class CicloDeleteView(DeleteView):
     model = Ciclo
-    success_url= reverse_lazy("ciclo-list")
+    success_url = reverse_lazy("ciclo-list")
+
+
+#vista de trayecto
+
+class TrayectoListView(ListView):
+    model = Trayecto
+
+class TrayectoDetailView(DetailView):
+    model = Trayecto
+
+class TrayectoCreateView(CreateView):
+    model = Trayecto
+    success_url = reverse_lazy("trayecto-list")
+    fields = ['alumno','ciclo','fpromo']
+
+class TrayectoUpdateView(UpdateView):
+    model = Trayecto
+    success_url = reverse_lazy("trayecto-list")
+    fields = ['alumno','ciclo','fpromo']
+    template_name_suffix = '_update_form'
+
+class TrayectoDeleteView(DeleteView):
+    model = Trayecto
+    success_url = reverse_lazy("trayecto-list")
+
+
+#vista sede
+
+class SedeListView(ListView):
+    model = Sede
+
+class SedeDetailView(DetailView):
+    model = Sede    
+
+class SedeCreateView(CreateView):
+    model = Sede
+    success_url = reverse_lazy("sede-list")
+    fields = ['empresa','cpsed']
+
+class SedeUpdateView(UpdateView):
+    model = Sede
+    success_url = reverse_lazy("sede-list")
+    fields = ['empresa','cpsed']
+    template_name_suffix = '_update_form'
+
+class SedeDeleteView(DeleteView):
+    model = Sede
+    success_url = reverse_lazy("sede-list")
 
 
 #vistas de Contacto
@@ -170,3 +218,27 @@ class ContactosUpdateView(UpdateView):
 class ContactosdeleteView(DeleteView):
     success_url= reverse_lazy("empresa-list")
     model = Contacto
+
+
+#vista para contrato
+
+class ContratoListView(ListView):
+    model = Contrato
+
+class ContratoDetailView(DetailView):
+    model = Contrato
+
+class ContratoCreateView(CreateView):
+    model = Contrato
+    success_url= reverse_lazy("contrato-list")
+    fields = ['empresa','alumno','pra','iniCon','finCon']
+
+class ContratoUpdateView(UpdateView):
+    model = Contrato
+    success_url= reverse_lazy("contrato-list")
+    fields = ['empresa','alumno','pra','iniCon','finCon']
+    template_name_suffix = '_update_form'
+
+class ContratoDeleteView(DeleteView):
+    model = Contrato
+    success_url= reverse_lazy("contrato-list")

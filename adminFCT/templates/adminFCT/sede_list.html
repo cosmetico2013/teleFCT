@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p><a href=" {% url 'sede-add' %} ">añadir</a></p>
+    {% for sede in object_list %}
+        <p>
+            <a href=" {% url 'sede-detail' sede.id %} ">{{ sede.empresa.nomEmp }} {{ sede.cpsed }}</a>
+            <a href=" {% url 'sede-update' sede.id %} ">update</a>
+            <a href=" {% url 'sede-delete' sede.id %} ">detete</a>
+        </p>
+    {% endfor %}
+{% endblock %}
