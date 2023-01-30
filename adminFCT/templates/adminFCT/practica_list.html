@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p><a href=" {% url 'practica-add' %} ">añadir</a></p>
+    {% for practica in object_list %}
+        <p>
+            <a href=" {% url 'practica-detail' practica.id %} ">{{ practica}}</a>
+            <a href=" {% url 'practica-update' practica.id %} ">update</a>
+            <a href=" {% url 'practica-delete' practica.id %} ">detete</a>
+        </p>
+    {% endfor %}
+{% endblock %}

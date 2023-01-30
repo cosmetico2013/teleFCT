@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p><a href=" {% url 'medio-add' %} ">añadir</a></p>
+    {% for medio in object_list %}
+        <p>
+            {{ medio.nomMed }}
+            <a href=" {% url 'medio-update' medio.id %} ">update</a>
+            <a href=" {% url 'medio-delete' medio.id %} ">detete</a>
+        </p>
+    {% endfor %}
+{% endblock %}

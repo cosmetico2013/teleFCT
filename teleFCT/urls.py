@@ -27,6 +27,9 @@ from adminFCT.views import CicloListView, CicloCreateView, CicloUpdateView, Cicl
 from adminFCT.views import TrayectoListView, TrayectoDetailView, TrayectoCreateView, TrayectoUpdateView, TrayectoDeleteView
 from adminFCT.views import SedeListView, SedeDetailView, SedeCreateView, SedeUpdateView, SedeDeleteView
 from adminFCT.views import ContratoListView, ContratoDetailView, ContratoCreateView, ContratoUpdateView, ContratoDeleteView
+from adminFCT.views import MedioListView, MedioCreateView, MedioUpdateView, MedioDeleteView
+from adminFCT.views import MensajeListView, MensajeDetailView, MensajeCreateView, MensajeUpdateView, MensajeDeleteView
+from adminFCT.views import PracticaListView, PracticaDetailView, PracticaCreateView, PracticaUpdateView, PracticaDeleteView
 
 from adminFCT.views import ProfesorSignUpView
 
@@ -99,6 +102,26 @@ urlpatterns = [
     path('contrato/add', ContratoCreateView.as_view(), name='contrato-add'),
     path('contrato/<int:pk>/update', ContratoUpdateView.as_view(), name='contrato-update'),
     path('contrato/<int:pk>/detele', ContratoDeleteView.as_view(), name='contrato-delete'),
+
+    #url para Medio
+    path('medio/', MedioListView.as_view(), name='medio-list'),
+    path('medio/add', MedioCreateView.as_view(), name='medio-add'),
+    path('medio/<int:pk>/update', MedioUpdateView.as_view(), name='medio-update'),
+    path('medio/<int:pk>/delete', MedioDeleteView.as_view(), name='medio-delete'),
+
+    #url para mensaje
+    path('mensaje/', MensajeListView.as_view(), name='mensaje-list'),
+    path('mensaje/<int:pk>', MensajeDetailView.as_view(), name='mensaje-detail'),
+    path('mensaje/add', MensajeCreateView.as_view(), name='mensaje-add'),
+    path('mensaje/<int:pk>/update', MensajeUpdateView.as_view(), name='mensaje-update'),
+    path('mensaje/<int:pk>/delete', MensajeDeleteView.as_view(), name='mensaje-delete'),
+
+    #url para practica
+    path('practica/', PracticaListView.as_view(), name='practica-list'),
+    path('practica/<int:pk>', PracticaDetailView.as_view(), name='practica-detail'),
+    path('practica/add', PracticaCreateView.as_view(), name='practica-add'),
+    path('practica/<int:pk>/update', PracticaUpdateView.as_view(), name='practica-update'),
+    path('practica/<int:pk>/delete', PracticaDeleteView.as_view(), name='practica-delete'),
 
     path('accounts/signup/teacher/', ProfesorSignUpView.as_view(), name='profesor_signup'),
 ]

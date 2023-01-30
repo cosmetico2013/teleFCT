@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p><a href=" {% url 'mensaje-add' %} ">añadir</a></p>
+    {% for mensaje in object_list %}
+        <p>
+            <a href=" {% url 'mensaje-detail' mensaje.id %} ">{{ mensaje.emitido }} {{ mensaje.recivido }}</a>
+            <a href=" {% url 'mensaje-update' mensaje.id %} ">update</a>
+            <a href=" {% url 'mensaje-delete' mensaje.id %} ">detete</a>
+        </p>
+    {% endfor %}
+{% endblock %}

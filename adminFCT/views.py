@@ -242,3 +242,75 @@ class ContratoUpdateView(UpdateView):
 class ContratoDeleteView(DeleteView):
     model = Contrato
     success_url= reverse_lazy("contrato-list")
+
+
+#vistas para medio
+
+class MedioListView(ListView):
+    model = Medio
+
+class MedioCreateView(CreateView):
+    model = Medio
+    success_url= reverse_lazy("medio-list")
+    fields = ['nomMed']
+
+class MedioUpdateView(UpdateView):
+    model = Medio
+    success_url= reverse_lazy("medio-list")
+    fields = ['nomMed']
+    template_name_suffix = '_update_form'
+
+class MedioDeleteView(DeleteView):
+    model = Medio
+    success_url= reverse_lazy("medio-list")
+
+
+#vista para mensaje
+
+class MensajeListView(ListView):
+    model = Mensaje
+    def get_queryset (self): 
+        object_list = Mensaje.objects.filter( hilos__isnull=True)
+        return object_list    
+
+class MensajeDetailView(DetailView):
+    model = Mensaje
+
+class MensajeCreateView(CreateView):
+    model = Mensaje
+    success_url= reverse_lazy("mensaje-list")
+    fields = ['emitido','recibido','medio','hilos','conte','fmen']
+
+class MensajeUpdateView(UpdateView):
+    model = Mensaje
+    success_url= reverse_lazy("mensaje-list")
+    fields = ['emitido','recibido','medio','hilos','conte','fmen']
+    template_name_suffix = '_update_form'
+
+class MensajeDeleteView(DeleteView):
+    model = Mensaje
+    success_url= reverse_lazy("mensaje-list")
+
+
+#vistas para practica
+
+class PracticaListView(ListView):
+    model = Practica
+
+class PracticaDetailView(DetailView):
+    model = Practica
+
+class PracticaCreateView(CreateView):
+    model = Practica
+    success_url= reverse_lazy("practica-list")
+    fields = ['alumno','ciclo','profesor','contacto','fIni','fFin','tele','E']
+
+class PracticaUpdateView(UpdateView):
+    model = Practica
+    success_url= reverse_lazy("practica-list")
+    fields = ['alumno','ciclo','profesor','contacto','fIni','fFin','tele','E']
+    template_name_suffix = '_update_form'
+
+class PracticaDeleteView(DeleteView):
+    model = Practica
+    success_url= reverse_lazy("practica-list")

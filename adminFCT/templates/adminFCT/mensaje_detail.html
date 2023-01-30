@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p>emetido: {{ object.emitido.nomEmp }}</p>
+    <p>recivido: {{ object.recibido.nomEmp }}</p>
+    <p>medio: {{ object.medio }}</p>
+    <p>fecha del mensaje: {{ object.fmen }}</p>
+    <p>contenido: {{ object.conte }}</p>
+    <p>Hilos <a href=" {% url 'mensaje-add' %} ">responder</a></p>
+    {% for respustas in object.hilos_set.all %}
+        <p>hola</p>
+    {% endfor %}
+{% endblock %}

@@ -112,7 +112,10 @@ class Contrato (models.Model):
 
 
 class Empleado(models.Model):
-    nombre = models.CharField(max_length=100)
+    nomEmp = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nomEmp
 
 
 class Medio(models.Model): # medio por el que se envio el mensaje
@@ -123,12 +126,15 @@ class Medio(models.Model): # medio por el que se envio el mensaje
 
 
 class Mensaje(models.Model):
-    #emitido = models.ForeignKey('Empleado', on_delete=models.CASCADE)
-    recibido = models.ForeignKey('Empleado', on_delete=models.CASCADE)
+    emitido = models.ForeignKey('Empleado', on_delete=models.CASCADE, related_name='emitido')
+    recibido = models.ForeignKey('Empleado', on_delete=models.CASCADE, related_name='recibido')
     medio = models.ForeignKey('Medio', on_delete=models.SET_NULL, null=True)
     hilos = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
-    contenido = models.CharField(max_length=1000)
+    conte = models.CharField(max_length=1000) #contenido
     fmen = models.DateTimeField(blank=True, null=True) #fecha del mensaje 
+
+    def __str__(self):
+        return self.emitido.nomEmp+' '+self.recibido.nomEmp
 
 
 class Practica(models.Model):
@@ -136,10 +142,13 @@ class Practica(models.Model):
     ciclo = models.ForeignKey('Ciclo', on_delete=models.CASCADE)
     profesor = models.ForeignKey('Profesor', on_delete=models.CASCADE)
     contacto = models.ForeignKey('Contacto', on_delete=models.CASCADE)
-    fechaInicio = models.DateTimeField(blank=True, null=True)
-    fechaFin = models.DateTimeField(blank=True, null=True)
+    fIni = models.DateTimeField(blank=True, null=True) #fecha de inicio
+    fFin = models.DateTimeField(blank=True, null=True) #fecha de fin
     tele = models.BooleanField() #si es un teletravajo
-    erasmus = models.BooleanField() #si es un erasmus
+    E = models.BooleanField() #si es un erasmus
+
+    def __str__(self):
+        return self.alumno.nomAlu+' '+self.ciclo.abre
 
 
 
