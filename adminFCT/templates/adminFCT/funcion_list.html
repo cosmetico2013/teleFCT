@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p><a href=" {% url 'funcion-add' %} ">añadir</a></p>
+    {% for funcion in object_list %}
+        <p>
+            {{ funcion }}
+            <a href=" {% url 'funcion-update' funcion.id %} ">update</a>
+            <a href=" {% url 'funcion-delete' funcion.id %} ">detete</a>
+        </p>
+    {% endfor %}
+{% endblock %}

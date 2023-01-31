@@ -314,3 +314,111 @@ class PracticaUpdateView(UpdateView):
 class PracticaDeleteView(DeleteView):
     model = Practica
     success_url= reverse_lazy("practica-list")
+
+
+#url para tool
+
+class ToolListView(ListView):
+    model = Tool
+
+class ToolCreateView(CreateView):
+    model = Tool
+    success_url= reverse_lazy("tool-list")
+    fields = ['nomToo','lenguaje']
+
+class ToolUpdateView(UpdateView):
+    model = Tool
+    success_url= reverse_lazy("tool-list")
+    fields = ['nomToo','lenguaje']
+    template_name_suffix = '_update_form'
+
+class ToolDeleteView(DeleteView):
+    model = Tool
+    success_url= reverse_lazy("tool-list")
+
+
+#vistas para requisito
+
+class RequisitoListView(ListView):
+    model = Requisito
+
+class RequisitoCreateView(CreateView):
+    model = Requisito
+    success_url= reverse_lazy("requisito-list")
+    fields = ['nomReq']
+
+class RequisitoUpdateView(UpdateView):
+    model = Requisito
+    success_url= reverse_lazy("requisito-list")
+    fields = ['nomReq']
+    template_name_suffix = '_update_form'
+
+class RequisitoDeleteView(DeleteView):
+    model = Requisito
+    success_url= reverse_lazy("requisito-list")
+
+
+#vista para perfil
+
+class PerfilListView(ListView):
+    model = Perfil
+
+class PerfilCreateView(CreateView):
+    model = Perfil
+    success_url= reverse_lazy("perfil-list")
+    fields = ['nomPer']
+
+class PerfilUpdateView(UpdateView):
+    model = Perfil
+    success_url= reverse_lazy("perfil-list")
+    fields = ['nomPer']
+    template_name_suffix = '_update_form'
+
+class PerfilDeleteView(DeleteView):
+    model = Perfil
+    success_url= reverse_lazy("perfil-list")
+
+
+#vistas para funcion
+
+class FuncionListView(ListView):
+    model = Funcion
+
+class FuncionCreateView(CreateView):
+    model = Funcion
+    success_url= reverse_lazy("funcion-list")
+    fields = ['perfil','nomFun']
+
+class FuncionUpdateView(UpdateView):
+    model = Funcion
+    success_url= reverse_lazy("funcion-list")
+    fields = ['perfil','nomFun']
+    template_name_suffix = '_update_form'
+
+class FuncionDeleteView(DeleteView):
+    model = Funcion
+    success_url= reverse_lazy("funcion-list")
+
+
+#url para oferta
+
+class OfertaListView(ListView):
+    model = Oferta
+
+class OfertaDetailView(DetailView):
+    model = Oferta
+
+class OfertaCreateView(CreateView):
+    model = Oferta
+    success_url= reverse_lazy("oferta-list")
+    fields = ['empresa','contacto','toolboxes','especifaciones','competencias','bibliotecas','nomOfe','fofe','kas','tele']
+
+class OfertaUpdateView(UpdateView):
+    model = Oferta
+    success_url= reverse_lazy("oferta-list")
+    fields = ['empresa','contacto','toolboxes','especifaciones','competencias','bibliotecas','nomOfe','fofe','kas','tele']
+    template_name_suffix = '_update_form'
+
+class OfertaDeleteView(DeleteView):
+    model = Oferta
+    success_url= reverse_lazy("oferta-list")

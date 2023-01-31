@@ -153,33 +153,33 @@ class Practica(models.Model):
 
 
 class Tool(models.Model): #las erramientas que prorciona
-    nombre = models.CharField(max_length=100)
+    nomToo = models.CharField(max_length=100)
     lenguaje = models.CharField(max_length=1) #S es un lenguaje o N si no lo es
 
     def __str__(self):
-        return self.nombre
+        return self.nomToo
 
 
 class Requisito(models.Model): #
-    nombre = models.CharField(max_length=100)
+    nomReq = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.nombre
+        return self.nomReq
 
 
 class Perfil(models.Model):
-    nombre = models.CharField(max_length=100)
+    nomPer = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.nombre
+        return self.nomPer
 
 
 class Funcion(models.Model):
     perfil = models.ForeignKey('Perfil', on_delete=models.CASCADE)
-    nombre = models.CharField(max_length=100)
+    nomFun = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.nombre
+        return self.perfil.nomPer+' '+self.nomFun
 
 
 class Oferta(models.Model):
@@ -189,10 +189,10 @@ class Oferta(models.Model):
     especifaciones = models.ManyToManyField('Requisito')
     competencias = models.ManyToManyField('Perfil')
     bibliotecas = models.ManyToManyField('Funcion')
-    nombre = models.CharField(max_length=100)
+    nomOfe = models.CharField(max_length=100)
     fofe = models.DateTimeField(blank=True, null=True) #Fecha de oferta
-    kas = models.DecimalField(max_digits=10, decimal_places=2, default=0) #salario anual
-    tele = models.BooleanField() #teletravajo 
+    kas = models.DecimalField(max_digits=10, decimal_places=0, default=0) #salario anual
+    tele = models.BooleanField() #teletrabajo 
 
     def __str__(self):
-        return self.nombre
+        return self.nomOfe

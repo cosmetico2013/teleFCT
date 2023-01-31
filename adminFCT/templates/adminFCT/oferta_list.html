@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p><a href=" {% url 'oferta-add' %} ">añadir</a></p>
+    {% for oferta in object_list %}
+        <p>
+            <a href=" {% url 'oferta-detail' oferta.id %} ">{{ oferta }}</a>
+            <a href=" {% url 'oferta-update' oferta.id %} ">update</a>
+            <a href=" {% url 'oferta-delete' oferta.id %} ">detete</a>
+        </p>
+    {% endfor %}
+{% endblock %}

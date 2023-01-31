@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p><a href=" {% url 'perfil-add' %} ">añadir</a></p>
+    {% for perfil in object_list %}
+        <p>
+            {{ perfil }}
+            <a href=" {% url 'perfil-update' perfil.id %} ">update</a>
+            <a href=" {% url 'perfil-delete' perfil.id %} ">detete</a>
+        </p>
+    {% endfor %}
+{% endblock %}

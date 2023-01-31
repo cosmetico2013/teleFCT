@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p><a href=" {% url 'tool-add' %} ">añadir</a></p>
+    {% for tool in object_list %}
+        <p>
+            {{ tool }} {{ tool.lenguaje }}
+            <a href=" {% url 'tool-update' tool.id %} ">update</a>
+            <a href=" {% url 'tool-delete' tool.id %} ">detete</a>
+        </p>
+    {% endfor %}
+{% endblock %}

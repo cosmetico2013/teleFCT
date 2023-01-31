@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p><a href=" {% url 'requisito-add' %} ">añadir</a></p>
+    {% for requisito in object_list %}
+        <p>
+            {{ requisito }}
+            <a href=" {% url 'requisito-update' requisito.id %} ">update</a>
+            <a href=" {% url 'requisito-delete' requisito.id %} ">detete</a>
+        </p>
+    {% endfor %}
+{% endblock %}

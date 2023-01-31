@@ -30,6 +30,11 @@ from adminFCT.views import ContratoListView, ContratoDetailView, ContratoCreateV
 from adminFCT.views import MedioListView, MedioCreateView, MedioUpdateView, MedioDeleteView
 from adminFCT.views import MensajeListView, MensajeDetailView, MensajeCreateView, MensajeUpdateView, MensajeDeleteView
 from adminFCT.views import PracticaListView, PracticaDetailView, PracticaCreateView, PracticaUpdateView, PracticaDeleteView
+from adminFCT.views import ToolListView, ToolCreateView, ToolUpdateView, ToolDeleteView
+from adminFCT.views import RequisitoListView, RequisitoCreateView, RequisitoUpdateView, RequisitoDeleteView
+from adminFCT.views import PerfilListView, PerfilCreateView, PerfilUpdateView, PerfilDeleteView
+from adminFCT.views import FuncionListView, FuncionCreateView, FuncionUpdateView, FuncionDeleteView
+from adminFCT.views import OfertaListView, OfertaDetailView, OfertaCreateView, OfertaUpdateView, OfertaDeleteView
 
 from adminFCT.views import ProfesorSignUpView
 
@@ -122,6 +127,37 @@ urlpatterns = [
     path('practica/add', PracticaCreateView.as_view(), name='practica-add'),
     path('practica/<int:pk>/update', PracticaUpdateView.as_view(), name='practica-update'),
     path('practica/<int:pk>/delete', PracticaDeleteView.as_view(), name='practica-delete'),
+
+    #url para tool
+    path('tool/', ToolListView.as_view(), name='tool-list'),
+    path('tool/add', ToolCreateView.as_view(), name='tool-add'),
+    path('tool/<int:pk>/update', ToolUpdateView.as_view(), name='tool-update'),
+    path('tool/<int:pk>/delete', ToolDeleteView.as_view(), name='tool-delete'),
+
+    #url para requisito
+    path('requisito/', RequisitoListView.as_view(), name='requisito-list'),
+    path('requisito/add', RequisitoCreateView.as_view(), name='requisito-add'),
+    path('requisito/<int:pk>/update', RequisitoUpdateView.as_view(), name='requisito-update'),
+    path('requisito/<int:pk>/delete', RequisitoDeleteView.as_view(), name='requisito-delete'),
+
+    #url para perfil
+    path('perfil/', PerfilListView.as_view(), name='perfil-list'),
+    path('perfil/add', PerfilCreateView.as_view(), name='perfil-add'),
+    path('perfil/<int:pk>/update', PerfilUpdateView.as_view(), name='perfil-update'),
+    path('perfil/<int:pk>/delete', PerfilDeleteView.as_view(), name='perfil-delete'),
+    
+    #url para funcion
+    path('funcion/', FuncionListView.as_view(), name='funcion-list'),
+    path('funcion/add', FuncionCreateView.as_view(), name='funcion-add'),
+    path('funcion/<int:pk>/update', FuncionUpdateView.as_view(), name='funcion-update'),
+    path('funcion/<int:pk>/delete', FuncionDeleteView.as_view(), name='funcion-delete'),
+
+    #url para oferta
+    path('oferta/', OfertaListView.as_view(), name='oferta-list'),
+    path('oferta/<int:pk>/', OfertaDetailView.as_view(), name='oferta-detail'),
+    path('oferta/add', OfertaCreateView.as_view(), name='oferta-add'),
+    path('oferta/<int:pk>/update', OfertaUpdateView.as_view(), name='oferta-update'),
+    path('oferta/<int:pk>/delete', OfertaDeleteView.as_view(), name='oferta-delete'), 
 
     path('accounts/signup/teacher/', ProfesorSignUpView.as_view(), name='profesor_signup'),
 ]
