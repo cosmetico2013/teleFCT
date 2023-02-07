@@ -57,7 +57,7 @@ class Empresa(models.Model):
     ramo = models.ForeignKey('Ramo', on_delete=models.SET_NULL, null=True)
     tam = models.ForeignKey('Tamano', on_delete=models.SET_NULL, null=True)
     nomEmp = models.CharField(max_length=100)
-    logo = models.FileField(upload_to="img/", null=True, blank=True)
+    logo = models.FileField(upload_to="img/")
     razon = models.CharField(max_length=100) #es la razon social, nombre que tiene la empresa en el registro
     numTra = models.DecimalField(max_digits=10, decimal_places=0, default=0) #numero de trabajadores
     web = models.URLField(max_length=100, null=True, blank=True) 
@@ -91,13 +91,22 @@ class Sede(models.Model):
         return self.empresa.nomEmp+' '+str(self.cpsed)
 
 
-class Contacto (models.Model):
-    empresa = models.ForeignKey('Empresa', on_delete=models.CASCADE)
-    nombre = models.CharField(max_length=100)
-    mailCon = models.CharField(max_length=100)
+class Empleado(models.Model):
+    nomEmp = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.nombre
+        return self.nomEmp
+
+
+class Contacto (models.Model):
+    empresa = models.ForeignKey('Empresa', on_delete=models.CASCADE)
+    empleado = models.OneToOneField('Empleado', on_delete=models.CASCADE)
+    #nombre = models.CharField(max_length=100)
+    mailCon = models.EmailField()
+
+    def __str__(self):
+        return self.empleado.nomEmp
+        r#eturn self.nombre
 
 
 class Contrato (models.Model):
@@ -111,11 +120,7 @@ class Contrato (models.Model):
         return (str(self.empresa)+" "+str(self.alumno))
 
 
-class Empleado(models.Model):
-    nomEmp = models.CharField(max_length=100)
 
-    def __str__(self):
-        return self.nomEmp
 
 
 class Medio(models.Model): # medio por el que se envio el mensaje

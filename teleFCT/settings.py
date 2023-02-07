@@ -22,6 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-pwxvw(2&wiz66$&y&^08j$#2#q6#!1)y#0)sf%lhghwds#lbuv'
 
+AUTH_USER_MODEL = "adminFCT.User"
+
 ACCOUNT_ACTIVATION_DAYS = 70 # One-week activation window
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -49,7 +51,7 @@ INSTALLED_APPS = [
     #mis añadidos
     'bootstrap5',
     'django_extensions',
-    #'django_registration',
+    'django_registration',
     'rest_framework',
     'corsheaders',
 ]
@@ -151,7 +153,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
 
@@ -168,5 +170,3 @@ MEDIA_ROOT = BASE_DIR / ".." / "static_env" / "media_root"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-AUTH_USER_MODEL = "adminFCT.User"

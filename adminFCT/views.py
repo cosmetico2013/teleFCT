@@ -10,7 +10,7 @@ from adminFCT.models import Empresa, Contrato, Profesor, Alumno, User, Trayecto,
 from adminFCT.models import Empleado, Mensaje, Contacto, Sede, Oferta, Tool, Perfil, Funcion, Requisito
 from adminFCT.models import Forma, Ramo, Tamano, Medio
 
-from teleFCT.forms import ProfesorSignUpForm
+from teleFCT.forms import ProfesorSignUpForm , registro
 
 # Create your views here.
 
@@ -29,6 +29,10 @@ class ProfesorSignUpView(CreateView):
         login(self.request, user)
         return redirect('/')
 
+class registroview(CreateView):
+    model = User
+    form_class = registro
+    template_name = 'registration/signup_form.html'
 
 #vista de index
 def index(request):
@@ -201,22 +205,83 @@ class SedeDeleteView(DeleteView):
 
 #vistas de Contacto
 
-class ContactosDetailView(DetailView):
+class ContactoListView(ListView):
     model = Contacto
 
-class ContactosCreateView(CreateView):
+class ContactoDetailView(DetailView):
     model = Contacto
-    success_url= reverse_lazy("empresa-list")
-    fields = ['movcon']
 
-class ContactosUpdateView(UpdateView):
+from teleFCT.forms import ContactoForm, ContactoForm2
+
+class ContactoCreateView(CreateView):
     model = Contacto
-    success_url= reverse_lazy("empresa-list")
-    fields = ['nombre','apellidos','telefono','correo','puesto','empresa']
+    success_url= reverse_lazy("contacto-list")
+    #fields = ['empresa','empleado','mailCon']
+    form_class = ContactoForm
+    second_form_class = ContactoForm2
+    def get_context_data(self, **kwargs):
+        context = super(ContactoCreateView, self).get_context_data(**kwargs)
+        if 'form' not in context:
+            context['form'] = self.form_class(self.request.GET)
+        if 'form2' not in context:
+            context['form2'] = self.second_form_class(self.request.GET)
+        return context
+    def form_valid(self, form):
+        print('valid')
+        print(form.instance)
+        return super().form_valid(form)
+
+    '''def form_valid(self, form):
+        print(form)
+        return redirect('contacto-add')'''
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        form2 = self.second_form_class(request.POST)
+        form.is_valid()
+        print('request')
+        print(request)
+        p = super().post(request, *args, **kwargs)
+        print('post')
+        print(p)
+        return redirect('contacto-add')
+'''
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object
+        form = self.form_class(request.POST)
+        form2 = self.second_form_class(request.POST)
+        #if form.is_valid() and form2.is_valid():
+        #p = Empleado.objects.create(nomEmp=form2.nomEmp)
+        #print(p.pk)
+        form_valid(form)
+        form2.is_valid()
+
+        return redirect('contacto-add')
+
+        else:
+            print('no')
+            return redirect('contacto-add')
+    
+    def get_form(self):
+        form=super().get_form()
+        print(form)
+        print('hola-que-tal')
+        #print(form.add.)
+        return form
+    def form_valid(self, form):
+        fin=super().form_valid(form)
+        print(form.instance.nombre)
+        return fin
+    '''
+
+class ContactoUpdateView(UpdateView):
+    model = Contacto
+    success_url= reverse_lazy("contacto-list")
+    fields = ['empresa','empleado','mailCon']
     template_name_suffix = '_update_form'
 
-class ContactosdeleteView(DeleteView):
-    success_url= reverse_lazy("empresa-list")
+class ContactodeleteView(DeleteView):
+    success_url= reverse_lazy("contacto-list")
     model = Contacto
 
 
@@ -303,7 +368,11 @@ class PracticaDetailView(DetailView):
 class PracticaCreateView(CreateView):
     model = Practica
     success_url= reverse_lazy("practica-list")
-    fields = ['alumno','ciclo','profesor','contacto','fIni','fFin','tele','E']
+    fields = ['alumno','ciclo','contacto','fIni','fFin','tele','E']
+    def form_valid(self, form):
+        profesor = Profesor.objects.get(user=self.request.user)
+        form.instance.profesor=profesor
+        return super().form_valid(form)
 
 class PracticaUpdateView(UpdateView):
     model = Practica

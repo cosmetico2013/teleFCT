@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p><a href=" {% url 'contacto-add' %} ">añadir</a></p>
+    {% for contacto in object_list %}
+        <p>
+            <a href=" {% url 'contacto-detail' contacto.id %} ">{{ contacto }} </a>
+            <a href=" {% url 'contacto-update' contacto.id %} ">update</a>
+            <a href=" {% url 'contacto-delete' contacto.id %} ">detete</a>
+        </p>
+    {% endfor %}
+{% endblock %}

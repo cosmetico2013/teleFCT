@@ -7,7 +7,8 @@
     <p>fecha del mensaje: {{ object.fmen }}</p>
     <p>contenido: {{ object.conte }}</p>
     <p>Hilos <a href=" {% url 'mensaje-add' %} ">responder</a></p>
-    {% for respustas in object.hilos_set.all %}
-        <p>hola</p>
+    {% for respuesta in object.mensaje_set.all %}
+        <p>{{ respuesta }}</p>
+        <p>{{ respuesta.conte }}</p>
     {% endfor %}
 {% endblock %}

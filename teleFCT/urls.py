@@ -18,7 +18,7 @@ from django.urls import path
 from django.urls.conf import include
 from adminFCT.views import index
 from adminFCT.views import AlumnoListView, AlumnoDetailView
-from adminFCT.views import ContactosCreateView, ContactosdeleteView, ContactosDetailView, ContactosUpdateView
+from adminFCT.views import ContactoListView, ContactoDetailView, ContactoCreateView, ContactoUpdateView, ContactodeleteView
 from adminFCT.views import FormaListView, FormaCreateView, FormaUpdateView, FormaDeleteView
 from adminFCT.views import RamoListView, RamoCrateView, RamoUpdateView, RamoDeleteView
 from adminFCT.views import TamanoListView, TamanoCreateView, TamanoUpdateView, TamanoDeleteView
@@ -36,7 +36,7 @@ from adminFCT.views import PerfilListView, PerfilCreateView, PerfilUpdateView, P
 from adminFCT.views import FuncionListView, FuncionCreateView, FuncionUpdateView, FuncionDeleteView
 from adminFCT.views import OfertaListView, OfertaDetailView, OfertaCreateView, OfertaUpdateView, OfertaDeleteView
 
-from adminFCT.views import ProfesorSignUpView
+from adminFCT.views import ProfesorSignUpView, registroview
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -96,10 +96,11 @@ urlpatterns = [
     path('sede/<int:pk>/delete', SedeDeleteView.as_view(), name='sede-delete'),
 
     #url para contactos
-    path('contactos/<int:pk>', ContactosDetailView.as_view(), name='contactos-detail'),
-    path('contactos/add', ContactosCreateView.as_view(), name='contactos-add'),
-    path('contactos/<int:pk>/update', ContactosUpdateView.as_view(), name='contactos-update'),
-    path('contactos/<int:pk>/delete', ContactosdeleteView.as_view(), name='contactos-delete'),
+    path('contacto/', ContactoListView.as_view(), name='contacto-list'),
+    path('contacto/<int:pk>', ContactoDetailView.as_view(), name='contacto-detail'),
+    path('contacto/add', ContactoCreateView.as_view(), name='contacto-add'),
+    path('contacto/<int:pk>/update', ContactoUpdateView.as_view(), name='contacto-update'),
+    path('contacto/<int:pk>/delete', ContactodeleteView.as_view(), name='contacto-delete'),
 
     #url para contrato
     path('contrato/', ContratoListView.as_view(), name='contrato-list'),
@@ -160,4 +161,5 @@ urlpatterns = [
     path('oferta/<int:pk>/delete', OfertaDeleteView.as_view(), name='oferta-delete'), 
 
     path('accounts/signup/teacher/', ProfesorSignUpView.as_view(), name='profesor_signup'),
+    path('registro', registroview.as_view(), name='resgitro'),
 ]
