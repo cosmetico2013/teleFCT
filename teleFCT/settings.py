@@ -50,10 +50,12 @@ INSTALLED_APPS = [
     'adminFCT',
     #mis añadidos
     'bootstrap5',
+    'tempus_dominus',
     'django_extensions',
     'django_registration',
     'rest_framework',
     'corsheaders',
+    'multi_form_view',
 ]
 
 MIDDLEWARE = [
@@ -149,6 +151,11 @@ USE_I18N = True
 
 USE_TZ = True
 
+DATE_FORMAT = "Y-m-d"
+
+USE_L10N = False
+
+LOGIN_REDIRECT_URL='/'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/

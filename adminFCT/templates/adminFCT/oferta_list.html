@@ -1,12 +1,83 @@
 {% extends "base.html" %}
 
-{% block content %}
-    <p><a href=" {% url 'oferta-add' %} ">añadir</a></p>
-    {% for oferta in object_list %}
-        <p>
-            <a href=" {% url 'oferta-detail' oferta.id %} ">{{ oferta }}</a>
-            <a href=" {% url 'oferta-update' oferta.id %} ">update</a>
-            <a href=" {% url 'oferta-delete' oferta.id %} ">detete</a>
-        </p>
-    {% endfor %}
+{% block content %} 
+    <div class="row">
+        <h2 class="text-center mb-4" >Oferta
+            {% if user.is_student %}
+                <a href=" {% url 'oferta-alumno-add' %} "><button type="button" class="btn btn-sm btn-outline-primary">AÑADIR</button></a>
+            {% else %}
+                <a href=" {% url 'oferta-add' %} "><button type="button" class="btn btn-sm btn-outline-primary">AÑADIR</button></a>
+            {% endif %}
+        </h2>
+        {% if form %}
+            <div class="col-md-4">
+                <form class="form-inline mt-2 mb-4" action="{% url 'oferta-search-nombre' %}" method="get">
+                    <input type="search" name="q" placeholder="buscar nombre" class="form-control form-control mr-sm-2" />
+                </form>
+            </div>
+            <div class="col-md-4">
+                <form class="form-inline mt-2 mb-4" action="{% url 'oferta-search-empresa' %}" method="get">
+                    <input type="search" name="q" placeholder="buscar empresa" class="form-control form-control mr-sm-2" />
+                </form>
+            </div>
+            <div class="col-md-4">
+                <form class="form-inline mt-2 mb-4" action="{% url 'oferta-search-contacto' %}" method="get">
+                    <input type="search" name="q" placeholder="buscar contacto" class="form-control form-control mr-sm-2" />
+                </form>
+            </div>
+            <div class="col-md-4">
+                <form class="form-inline mt-2 mb-4" action="{% url 'oferta-search-requisito' %}" method="get">
+                    <input type="search" name="q" placeholder="buscar requisito" class="form-control form-control mr-sm-2" />
+                </form>
+            </div>
+            <div class="col-md-4">
+                <form class="form-inline mt-2 mb-4" action="{% url 'oferta-search-perfil' %}" method="get">
+                    <input type="search" name="q" placeholder="buscar perfil" class="form-control form-control mr-sm-2" />
+                </form>
+            </div>
+            <div class="col-md-4">
+                <form class="form-inline mt-2 mb-4" action="{% url 'oferta-search-funcion' %}" method="get">
+                    <input type="search" name="q" placeholder="buscar funcion" class="form-control form-control mr-sm-2" />
+                </form>
+            </div>
+        {% endif %}
+        {% for oferta in object_list %}
+            <div class="col-md-14">
+                <div class="card p-4 mb-4 box-shadow ">
+                    <h4 class="text-center mb-2"><a href=" {% url 'oferta-detail' oferta.id %} ">{{ oferta }}</a>
+                        {% if not user.is_student %}
+                            <div class="btn-group">
+                                <a href=" {% url 'oferta-update' oferta.id %} "><button type="button" class="btn btn-sm btn-outline-secondary">Edit</button></a>
+                                <a href=" {% url 'oferta-delete' oferta.id %} "><button type="button" class="btn btn-sm btn-outline-danger">Delete</button></a>
+                            </div>
+                        {% endif %}
+                    </h4>
+                    {% if oferta.empresa %}
+                        <p class="mb-2"><b>Empresa: </b>{{ oferta.empresa.nomEmp }}</p>
+                    {% endif %}
+                    {% if oferta.contacto %}
+                        <p class="mb-2"><b>Contacto: </b>{{ oferta.contacto.empleado.nomEmp }}</p>
+                    {% endif %}                    
+                    <p class="mb-2">
+                        <b>Requisitos: </b>
+                        {% for requi in oferta.especifaciones.all %}
+                            {{ requi }}
+                        {% endfor %}
+                    </p>
+                    <p class="mb-2">
+                        <b>Perfil: </b>
+                        {% for perfil in oferta.competencias.all %}
+                            {{ perfil }}
+                        {% endfor %}
+                    </p>
+                    <p class="mb-2">
+                        <b>Funciones: </b>
+                        {% for funci in oferta.bibliotecas.all %}
+                            {{ funci }}
+                        {% endfor %}
+                    </p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

@@ -1,12 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p><a href=" {% url 'medio-add' %} ">añadir</a></p>
-    {% for medio in object_list %}
-        <p>
-            {{ medio.nomMed }}
-            <a href=" {% url 'medio-update' medio.id %} ">update</a>
-            <a href=" {% url 'medio-delete' medio.id %} ">detete</a>
-        </p>
-    {% endfor %}
+    <h2 class="text-center mb-4" >Medio
+        <a href=" {% url 'medio-add' %} "><button type="button" class="btn btn-sm btn-outline-primary">AÑADIR</button></a>
+    </h2>
+    <div class="row">
+        {% for medio in object_list %}
+            <div class="col-md-3">
+                <div class="card p-4 mb-4 box-shadow ">
+                    <p class="text-center mb-2">{{ medio }}</p>
+                    <div class="btn-group">
+                        <a href=" {% url 'medio-update' medio.id %} "><button type="button" class="btn btn-sm btn-outline-secondary">Edit</button></a>
+                        <a href=" {% url 'medio-delete' medio.id %} "><button type="button" class="btn btn-sm btn-outline-danger">Delete</button></a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

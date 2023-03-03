@@ -1,12 +1,57 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p><a href=" {% url 'contrato-add' %} ">añadir</a></p>
-    {% for contrato in object_list %}
-        <p>
-            <a href=" {% url 'contrato-detail' contrato.id %} ">{{ contrato.alumno.nomAlu }} {{ contrato.empresa.nomEmp }}</a>
-            <a href=" {% url 'contrato-update' contrato.id %} ">update</a>
-            <a href=" {% url 'contrato-delete' contrato.id %} ">detete</a>
-        </p>
-    {% endfor %}
+    <h2 class="text-center mb-4" >Contratos
+        {% if user.is_student %}
+            <a href=" {% url 'contrato-alumno-add' %} "><button type="button" class="btn btn-sm btn-outline-primary">AÑADIR</button></a>
+        {% endif %}
+        {% if user.is_staff or user.is_teacher %}
+            <a href=" {% url 'contrato-add' %} "><button type="button" class="btn btn-sm btn-outline-primary">AÑADIR</button></a>
+        {% endif %}
+    </h2>
+    <div class="row">
+        <div class="col-md-6">
+            <form class="form-inline mt-2 mb-4" action="{% url 'contrato-search-alumno' %}" method="get">
+                <input type="search" name="q" placeholder="buscar alumno" class="form-control form-control mr-sm-2" />
+            </form>
+        </div>
+        <div class="col-md-6">
+            <form class="form-inline mt-2 mb-4" action="{% url 'contrato-search-empresa' %}" method="get">
+                <input type="search" name="q" placeholder="buscar empresa" class="form-control form-control mr-sm-2" />
+            </form>
+        </div>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Alumno</th>
+                <th scope="col">Empresa</th>
+                <th scope="col">Practica</th>
+                <th scope="col">Inico</th>
+                <th scope="col">Fin</th>
+                <th scope="col">Edicion</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for contrato in object_list %}
+                <tr>
+                    <td>{{ contrato.alumno.nomAlu }}</td>
+                    <td>{{ contrato.empresa.nomEmp }}</td>
+                    <td>
+                        {% if contrato.pra %}
+                            X
+                        {% endif %}
+                    </td>
+                    <td>{{ contrato.iniCon }}</td>
+                    <td>{{ contrato.finCon }}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a href=" {% url 'contrato-update' contrato.id %} "><button type="button" class="btn btn-sm btn-outline-secondary">Edit</button></a>
+                            <a href=" {% url 'contrato-delete' contrato.id %} "><button type="button" class="btn btn-sm btn-outline-danger">Delete</button></a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

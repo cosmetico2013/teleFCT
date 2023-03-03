@@ -1,12 +1,30 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p><a href=" {% url 'funcion-add' %} ">añadir</a></p>
-    {% for funcion in object_list %}
-        <p>
-            {{ funcion }}
-            <a href=" {% url 'funcion-update' funcion.id %} ">update</a>
-            <a href=" {% url 'funcion-delete' funcion.id %} ">detete</a>
-        </p>
-    {% endfor %}
+    <h2 class="text-center mb-4" >Funcion
+        <a href=" {% url 'funcion-add' %} "><button type="button" class="btn btn-sm btn-outline-primary">AÑADIR</button></a>
+    </h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Perfil</th>
+                <th scope="col">Funcion</th>
+                <th scope="col">Edicion</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for funcion in object_list %}
+                <tr>
+                    <th>{{ funcion.perfil }}</th>
+                    <th>{{ funcion.nomFun }}</th>
+                    <th>
+                        <div class="btn-group">
+                            <a href=" {% url 'funcion-update' funcion.id %} "><button type="button" class="btn btn-sm btn-outline-secondary">Edit</button></a>
+                            <a href=" {% url 'funcion-delete' funcion.id %} "><button type="button" class="btn btn-sm btn-outline-danger">Delete</button></a>
+                        </div>
+                    </th>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

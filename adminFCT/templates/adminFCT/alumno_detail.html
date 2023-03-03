@@ -1,14 +1,36 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p>user: {{ object.user }}</p>
-    <p>nomAlu: {{ object.nomAlu }}</p>
-    <p>movil: {{ object.movil }}</p>
-    <p>mail: {{ object.mail }}</p>
-    <p>curri: {{ object.curri }}</p>
-    <p>proy: {{ object.proy }}</p>
-    <p>fnac: {{ object.fnac }}</p>
-    <p>sex: {{ object.sex }}</p>
-    <p>dis: {{ object.dis }}</p>
-    <p>cpAlu: {{ object.cpAlu }}</p>
+    <table class="table table-bordered border-success">
+        <thead>
+            <tr>
+                <th scope="col" colspan="4" class="text-center text-success">DATOS SOBRE EL ALUMNO</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><p class="text-success mb-1">NOMBRE</p>{{ object.nomAlu }}</td>
+                <td><p class="text-success mb-1">FECHA DE NACIMIENTO</p>{{ object.fnac }}</td>
+                <td><p class="text-success mb-1">SEXO</p>{{ object.sex }}</td>
+                <td><p class="text-success mb-1">DISCAPACIDAD</p>{{ object.dis }}%</td>
+            </tr>
+            <tr>
+                <td colspan="2"><p class="text-success mb-1">CORREO ELECTRÓNICO</p>{{ object.mail }}</td>
+                <td><p class="text-success mb-1">NÚMERO MÓVIL</p>{{ object.movil }}</td>
+                <td><p class="text-success mb-1">CPALUMNO</p>{{ object.cpAlu }}</td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <p class="text-success mb-1">LINKS</p>
+                    {% if object.curri %}
+                        <a href="{{ object.curri }}">CURRICULUM</a>
+                    {% endif %}
+                    {% if object.proy %}
+                        <a href="{{ object.proy }}">GITHUB</a>
+                    {% endif %}
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
 {% endblock %}

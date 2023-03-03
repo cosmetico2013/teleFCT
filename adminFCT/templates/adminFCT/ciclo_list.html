@@ -1,12 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p><a href=" {% url 'ciclo-add' %} ">añadir</a></p>
-    {% for ciclo in object_list %}
-        <p>
-            {{ ciclo.abre }}
-            <a href=" {% url 'ciclo-update' ciclo.id %} ">update</a>
-            <a href=" {% url 'ciclo-delete' ciclo.id %} ">detete</a>
-        </p>
-    {% endfor %}
+    <h2 class="text-center mb-4" >Ciclos
+        <a href=" {% url 'ciclo-add' %} "><button type="button" class="btn btn-sm btn-outline-primary">AÑADIR</button></a>
+    </h2>
+    <div class="row">
+        {% for ciclo in object_list %}
+            <div class="col-md-3">
+                <div class="card p-4 mb-4 box-shadow ">
+                    <p class="text-center">{{ ciclo.abre }}</p>
+                    <div class="btn-group">
+                        <a href=" {% url 'ciclo-update' ciclo.id %} "><button type="button" class="btn btn-sm btn-outline-secondary">Edit</button></a>
+                        <a href=" {% url 'ciclo-delete' ciclo.id %} "><button type="button" class="btn btn-sm btn-outline-danger">Delete</button></a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

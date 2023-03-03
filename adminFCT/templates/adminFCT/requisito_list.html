@@ -1,12 +1,28 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p><a href=" {% url 'requisito-add' %} ">añadir</a></p>
-    {% for requisito in object_list %}
-        <p>
-            {{ requisito }}
-            <a href=" {% url 'requisito-update' requisito.id %} ">update</a>
-            <a href=" {% url 'requisito-delete' requisito.id %} ">detete</a>
-        </p>
-    {% endfor %}
+    <h2 class="text-center mb-4" >Requisitos
+        <a href=" {% url 'requisito-add' %} "><button type="button" class="btn btn-sm btn-outline-primary">AÑADIR</button></a>
+    </h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Requisito</th>
+                <th scope="col">Edicion</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for requisito in object_list %}
+                <tr>
+                    <td>{{ requisito }}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a href=" {% url 'requisito-update' requisito.id %} "><button type="button" class="btn btn-sm btn-outline-secondary">Edit</button></a>
+                            <a href=" {% url 'requisito-delete' requisito.id %} "><button type="button" class="btn btn-sm btn-outline-danger">Delete</button></a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

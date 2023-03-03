@@ -1,12 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p><a href=" {% url 'empresa-add' %} ">añadir</a></p>
-    {% for empresa in object_list %}
-        <p>
-            <a href=" {% url 'empresa-detail' empresa.id %} ">{{ empresa.nomEmp }}</a>
-            <a href=" {% url 'empresa-update' empresa.id %} ">update</a>
-            <a href=" {% url 'empresa-delete' empresa.id %} ">detete</a>
-        </p>
-    {% endfor %}
+    <h2 class="text-center mb-4" >Empresas
+        <a href=" {% url 'empresa-add' %} "><button type="button" class="btn btn-sm btn-outline-primary">AÑADIR</button></a>
+    </h2>
+    <div class="row">
+        <form class="form-inline mt-2 mb-4" action="{% url 'empresa-search' %}" method="get">
+            <input type="search" name="q" placeholder="buscar nombre" class="form-control form-control mr-sm-2" />
+        </form>
+        {% for empresa in object_list %}
+            <div class="col-md-3">
+                <div class="card p-4 mb-4 box-shadow ">
+                    <a href=" {% url 'empresa-detail' empresa.id %} "><img style="height: 64px; width: 64px; display: block;" class="mx-auto d-block" src="/media/{{ empresa.logo }}" alt="Logo Empresa"></a>
+                    <p class="text-center mb-2">{{ empresa.nomEmp }}</p>
+                    <p class="text-center mb-2">{{ contacto.empresa }}</p>
+                    <div class="btn-group">
+                        <a href=" {% url 'empresa-update' empresa.id %} "><button type="button" class="btn btn-sm btn-outline-secondary">Edit</button></a>
+                        <a href=" {% url 'empresa-delete' empresa.id %} "><button type="button" class="btn btn-sm btn-outline-danger">Delete</button></a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

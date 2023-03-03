@@ -1,12 +1,56 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p><a href=" {% url 'practica-add' %} ">añadir</a></p>
-    {% for practica in object_list %}
-        <p>
-            <a href=" {% url 'practica-detail' practica.id %} ">{{ practica}}</a>
-            <a href=" {% url 'practica-update' practica.id %} ">update</a>
-            <a href=" {% url 'practica-delete' practica.id %} ">detete</a>
-        </p>
-    {% endfor %}
+    <h2 class="text-center mb-4" >Practica
+        <a href=" {% url 'practica-add' %} "><button type="button" class="btn btn-sm btn-outline-primary">AÑADIR</button></a>
+    </h2>
+    <div class="row">
+        <div class="col-md-3">
+            <form class="form-inline mt-2 mb-4" action="{% url 'practica-search-alumno' %}" method="get">
+                <input type="search" name="q" placeholder="buscar alumno" class="form-control form-control mr-sm-2" />
+            </form>
+        </div>
+        <div class="col-md-3">
+            <form class="form-inline mt-2 mb-4" action="{% url 'practica-search-ciclo' %}" method="get">
+                <input type="search" name="q" placeholder="buscar ciclo" class="form-control form-control mr-sm-2" />
+            </form>
+        </div>
+        <div class="col-md-3">
+            <form class="form-inline mt-2 mb-4" action="{% url 'practica-search-profesor' %}" method="get">
+                <input type="search" name="q" placeholder="buscar profesor" class="form-control form-control mr-sm-2" />
+            </form>
+        </div>
+        <div class="col-md-3">
+            <form class="form-inline mt-2 mb-4" action="{% url 'practica-search-contacto' %}" method="get">
+                <input type="search" name="q" placeholder="buscar contacto" class="form-control form-control mr-sm-2" />
+            </form>
+        </div>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Alumno</th>
+                <th scope="col">Ciclo</th>
+                <th scope="col">Profesor</th>
+                <th scope="col">Contacto</th>
+                <th scope="col">Edicion</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for practica in object_list %}
+                <tr>
+                    <td><a href=" {% url 'practica-detail' practica.id %} ">{{ practica.alumno.nomAlu }}</a></td>
+                    <td>{{ practica.ciclo.abre }}</td>
+                    <td>{{ practica.profesor.empleado.nomEmp }}</td>
+                    <td>{{ practica.contacto.empleado.nomEmp }}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a href=" {% url 'practica-update' practica.id %} "><button type="button" class="btn btn-sm btn-outline-secondary">Edit</button></a>
+                            <a href=" {% url 'practica-delete' practica.id %} "><button type="button" class="btn btn-sm btn-outline-danger">Delete</button></a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

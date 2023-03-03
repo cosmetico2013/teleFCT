@@ -1,12 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p><a href=" {% url 'sede-add' %} ">añadir</a></p>
-    {% for sede in object_list %}
-        <p>
-            <a href=" {% url 'sede-detail' sede.id %} ">{{ sede.empresa.nomEmp }} {{ sede.cpsed }}</a>
-            <a href=" {% url 'sede-update' sede.id %} ">update</a>
-            <a href=" {% url 'sede-delete' sede.id %} ">detete</a>
-        </p>
-    {% endfor %}
+    <h2 class="text-center mb-4" >Sedes
+        <a href=" {% url 'sede-add' %} "><button type="button" class="btn btn-sm btn-outline-primary">AÑADIR</button></a>
+    </h2>
+    <div class="row">
+        {% for sede in object_list %}
+            <div class="col-md-3">
+                <div class="card p-4 mb-4 box-shadow ">
+                    <p class="text-center mb-2">{{ sede.empresa }}</p>
+                    <p class="text-center mb-2">{{ sede.cpSed }}</p>
+                    <div class="btn-group">
+                        <a href=" {% url 'sede-update' sede.id %} "><button type="button" class="btn btn-sm btn-outline-secondary">Edit</button></a>
+                        <a href=" {% url 'sede-delete' sede.id %} "><button type="button" class="btn btn-sm btn-outline-danger">Delete</button></a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

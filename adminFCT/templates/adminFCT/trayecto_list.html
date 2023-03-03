@@ -1,12 +1,49 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p><a href=" {% url 'trayecto-add' %} ">añadir</a></p>
-    {% for trayecto in object_list %}
-        <p>
-            <a href=" {% url 'trayecto-detail' trayecto.id %} ">{{ trayecto.alumno }} {{ trayecto.ciclo }}</a>
-            <a href=" {% url 'trayecto-update' trayecto.id %} ">update</a>
-            <a href=" {% url 'trayecto-delete' trayecto.id %} ">detete</a>
-        </p>
-    {% endfor %}
+    <h2 class="text-center mb-4" >Trayectos
+        <a href=" {% url 'trayecto-add' %} "><button type="button" class="btn btn-sm btn-outline-primary">AÑADIR</button></a>
+    </h2>
+    <div class="row">
+        <div class="col-md-4">
+            <form class="form-inline mt-2 mb-4" action="{% url 'trayecto-search-alumno' %}" method="get">
+                <input type="search" name="q" placeholder="buscar alumno" class="form-control form-control mr-sm-2" />
+            </form>
+        </div>
+        <div class="col-md-4">
+            <form class="form-inline mt-2 mb-4" action="{% url 'trayecto-search-ciclo' %}" method="get">
+                <input type="search" name="q" placeholder="buscar ciclo" class="form-control form-control mr-sm-2" />
+            </form>
+        </div>
+        <div class="col-md-4">
+            <form class="form-inline mt-2 mb-4" action="{% url 'trayecto-search-promo' %}" method="get">
+                <input type="search" name="q" placeholder="buscar promocion" class="form-control form-control mr-sm-2" />
+            </form>
+        </div>
+    </div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Alumno</th>
+                <th scope="col">Ciclo</th>
+                <th scope="col">Promocion</th>
+                <th scope="col">Edicion</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for trayecto in object_list %}
+                <tr>
+                    <td>{{ trayecto.alumno.nomAlu }}</td>
+                    <td>{{ trayecto.ciclo }}</td>
+                    <td>{{ trayecto.fpromo }}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a href=" {% url 'trayecto-update' trayecto.id %} "><button type="button" class="btn btn-sm btn-outline-secondary">Edit</button></a>
+                            <a href=" {% url 'trayecto-delete' trayecto.id %} "><button type="button" class="btn btn-sm btn-outline-danger">Delete</button></a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% endblock %}

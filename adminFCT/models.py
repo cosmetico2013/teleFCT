@@ -6,23 +6,30 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     is_teacher = models.BooleanField(default=False)
+    is_contact = models.BooleanField(default=False)
+    is_student = models.BooleanField(default=False)
 
+class Empleado(models.Model):
+    nomEmp = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.nomEmp
 
 class Profesor(models.Model):
     user = models.OneToOneField('User', on_delete=models.CASCADE, primary_key=True)
-    nombre = models.CharField(max_length=100)
+    empleado = models.OneToOneField('Empleado', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.nombre
+        return self.empleado.nomEmp
 
 class Alumno(models.Model):
     user = models.OneToOneField('User', on_delete=models.CASCADE, primary_key=True)
     nomAlu = models.CharField(max_length=100)
-    movil = models.CharField(max_length=20)
+    movil = models.CharField(max_length=20, blank=True, null=True)
     mail = models.EmailField()
-    curri = models.URLField() #curriculum
-    proy = models.URLField() #direccion de github
-    fnac = models.DateTimeField() #fecha de nacimiento
+    curri = models.URLField(blank=True, null=True) #curriculum
+    proy = models.URLField(blank=True, null=True) #direccion de github
+    fnac = models.DateField() #fecha de nacimiento
     sex = models.CharField(max_length=1)
     dis = models.DecimalField(max_digits=3, decimal_places=0, default=0) #discapacidad en porcentaje
     cpAlu = models.DecimalField(max_digits=20, decimal_places=0, default=0)
@@ -76,7 +83,7 @@ class Ciclo(models.Model):
 class Trayecto(models.Model):
     alumno = models.ForeignKey('Alumno', on_delete=models.CASCADE)
     ciclo = models.ForeignKey('Ciclo', on_delete=models.CASCADE)
-    fpromo = models.DateTimeField()
+    fpromo = models.DateField()
 
     def __str__(self):
         #return self.alumno+' '+self.ciclo.abre
@@ -85,42 +92,33 @@ class Trayecto(models.Model):
 
 class Sede(models.Model):
     empresa = models.ForeignKey('Empresa', on_delete=models.CASCADE)
-    cpsed = models.DecimalField(max_digits=20, decimal_places=0, default=0)
+    cpSed = models.DecimalField(max_digits=20, decimal_places=0, default=0)
 
     def __str__(self):
-        return self.empresa.nomEmp+' '+str(self.cpsed)
-
-
-class Empleado(models.Model):
-    nomEmp = models.CharField(max_length=100)
-
-    def __str__(self):
-        return self.nomEmp
+        return self.empresa.nomEmp+' '+str(self.cpSed)
 
 
 class Contacto (models.Model):
+    user = models.OneToOneField('User', on_delete=models.CASCADE, primary_key=True)
     empresa = models.ForeignKey('Empresa', on_delete=models.CASCADE)
     empleado = models.OneToOneField('Empleado', on_delete=models.CASCADE)
-    #nombre = models.CharField(max_length=100)
     mailCon = models.EmailField()
+    movCon = models.CharField(max_length=20, blank=True, null=True) #movil de contacto
 
     def __str__(self):
         return self.empleado.nomEmp
-        r#eturn self.nombre
+        #return self.nombre
 
 
 class Contrato (models.Model):
     empresa = models.ForeignKey('Empresa', on_delete=models.CASCADE)
     alumno = models.ForeignKey('Alumno', on_delete=models.CASCADE)
     pra = models.BooleanField() #si es en practica
-    iniCon = models.DateTimeField(blank=True, null=True)
-    finCon = models.DateTimeField(blank=True, null=True)
+    iniCon = models.DateField(blank=True, null=True)
+    finCon = models.DateField(blank=True, null=True)
 
     def __str__(self):
         return (str(self.empresa)+" "+str(self.alumno))
-
-
-
 
 
 class Medio(models.Model): # medio por el que se envio el mensaje
@@ -136,7 +134,7 @@ class Mensaje(models.Model):
     medio = models.ForeignKey('Medio', on_delete=models.SET_NULL, null=True)
     hilos = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True)
     conte = models.CharField(max_length=1000) #contenido
-    fmen = models.DateTimeField(blank=True, null=True) #fecha del mensaje 
+    fmen = models.DateField(blank=True, null=True) #fecha del mensaje 
 
     def __str__(self):
         return self.emitido.nomEmp+' '+self.recibido.nomEmp
@@ -147,8 +145,8 @@ class Practica(models.Model):
     ciclo = models.ForeignKey('Ciclo', on_delete=models.CASCADE)
     profesor = models.ForeignKey('Profesor', on_delete=models.CASCADE)
     contacto = models.ForeignKey('Contacto', on_delete=models.CASCADE)
-    fIni = models.DateTimeField(blank=True, null=True) #fecha de inicio
-    fFin = models.DateTimeField(blank=True, null=True) #fecha de fin
+    fIni = models.DateField() #fecha de inicio
+    fFin = models.DateField() #fecha de fin
     tele = models.BooleanField() #si es un teletravajo
     E = models.BooleanField() #si es un erasmus
 
@@ -184,18 +182,18 @@ class Funcion(models.Model):
     nomFun = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.perfil.nomPer+' '+self.nomFun
+        return self.nomFun
 
 
 class Oferta(models.Model):
-    empresa = models.ForeignKey('Empresa', on_delete=models.CASCADE)
-    contacto = models.ForeignKey('Contacto', on_delete=models.CASCADE)
+    empresa = models.ForeignKey('Empresa', on_delete=models.CASCADE, null=True, blank=True)
+    contacto = models.ForeignKey('Contacto', on_delete=models.CASCADE, null=True, blank=True)
     toolboxes = models.ManyToManyField('Tool')
     especifaciones = models.ManyToManyField('Requisito')
     competencias = models.ManyToManyField('Perfil')
     bibliotecas = models.ManyToManyField('Funcion')
     nomOfe = models.CharField(max_length=100)
-    fofe = models.DateTimeField(blank=True, null=True) #Fecha de oferta
+    fofe = models.DateField(blank=True, null=True) #Fecha de oferta
     kas = models.DecimalField(max_digits=10, decimal_places=0, default=0) #salario anual
     tele = models.BooleanField() #teletrabajo 
 

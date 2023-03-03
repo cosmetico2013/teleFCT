@@ -1,12 +1,33 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p><a href=" {% url 'contacto-add' %} ">añadir</a></p>
-    {% for contacto in object_list %}
-        <p>
-            <a href=" {% url 'contacto-detail' contacto.id %} ">{{ contacto }} </a>
-            <a href=" {% url 'contacto-update' contacto.id %} ">update</a>
-            <a href=" {% url 'contacto-delete' contacto.id %} ">detete</a>
-        </p>
-    {% endfor %}
+    <h2 class="text-center mb-4" >Contactos
+        <a href=" {% url 'contacto-add' %} "><button type="button" class="btn btn-sm btn-outline-primary">AÑADIR</button></a>
+    </h2>
+    <div class="row">
+        <div class="col-md-6">
+            <form class="form-inline mt-2 mb-4" action="{% url 'contacto-search-nombre' %}" method="get">
+                <input type="search" name="q" placeholder="buscar nombre" class="form-control form-control mr-sm-2" />
+            </form>
+        </div>
+        <div class="col-md-6">
+            <form class="form-inline mt-2 mb-4" action="{% url 'contacto-search-empresa' %}" method="get">
+                <input type="search" name="q" placeholder="buscar empresa" class="form-control form-control mr-sm-2" />
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        {% for contacto in object_list %}
+            <div class="col-md-3">
+                <div class="card p-4 mb-4 box-shadow ">
+                    <p class="text-center mb-2"><a href=" {% url 'contacto-detail' contacto.user.id %} ">{{ contacto }}</a></p>
+                    <p class="text-center mb-2">{{ contacto.empresa }}</p>
+                    <div class="btn-group">
+                        <a href=" {% url 'contacto-update' contacto.user.id %} "><button type="button" class="btn btn-sm btn-outline-secondary">Edit</button></a>
+                        <a href=" {% url 'contacto-delete' contacto.user.id %} "><button type="button" class="btn btn-sm btn-outline-danger">Delete</button></a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

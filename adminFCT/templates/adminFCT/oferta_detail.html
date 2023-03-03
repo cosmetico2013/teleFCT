@@ -1,29 +1,52 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p>empresa: {{ object.empresa }}</p>
-    <p>contacto: {{ object.contacto }}</p>
-    <p>nomOfe: {{ object.nomOfe }}</p>
-    <p>fecha de oferta: {{ object.fofe }}</p>
-    <p>dinero al año: {{ object.kas }}</p>
-    <p>teletrabajo: {{ object.tele }}</p>
-    <p>Tool:</p>
-    {% for tool in object.toolboxes.all %}
-        <p>{{ tool }}</p>
-    {% endfor %}
-
-    <p>requisitos:</p>
-    {% for requisito in object.especifaciones.all %}
-        <p>{{ requisito }}</p>
-    {% endfor %}
-
-    <p>competencias:</p>
-    {% for competencia in object.competencias.all %}
-        <p>{{ competencia }}</p>
-    {% endfor %}
-
-    <p>Funciones:</p>
-    {% for funcion in object.bibliotecas.all %}
-        <p>{{ funcion }}</p>
-    {% endfor %}
+    <h1 class="text-center">
+        {{ object.nomOfe }}
+        {% if not user.is_student %}
+            <div class="btn-group">
+                <a href=" {% url 'oferta-update' object.id %} "><button type="button" class="btn btn-sm btn-outline-secondary">Edit</button></a>
+                <a href=" {% url 'oferta-delete' object.id %} "><button type="button" class="btn btn-sm btn-outline-danger">Delete</button></a>
+            </div>
+        {% endif %}
+    </h1>
+    <p>Empresa: {{ object.empresa }}</p>
+    <p>Contacto: {{ object.contacto }}</p>
+    <p>Fecha de oferta: {{ object.fofe }}</p>
+    <p>Dinero al año: {{ object.kas }}€</p>
+    <p>Teletrabajo: 
+        {% if object.tele %}
+            si
+        {% else %}
+            no
+        {% endif %}
+    </p>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Herramientas</th>
+                <th scope="col">Perfil</th>
+                <th scope="col">Requisito</th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <th>
+                        {% for tool in object.toolboxes.all %}
+                            <p>{{ tool }}</p>
+                        {% endfor %}
+                    </th>
+                    <th>
+                        {% for requisito in object.especifaciones.all %}
+                            <p>{{ requisito }}</p>
+                        {% endfor %}
+                    </th>
+                    <th>
+                        {% for funcion in object.bibliotecas.all %}
+                            <p>{{ funcion }}</p>
+                        {% endfor %}
+                    </th>
+                </tr>
+        </tbody>
+    </table>
 {% endblock %}

@@ -1,9 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {% for alumno in object_list %}
-        <p>
-            <a href=" {% url 'alumno-detail' alumno.user.id %} ">{{ alumno.nomAlu }}</a>
-        </p>
-    {% endfor %}
+    <div class="row">
+        <h2 class="text-center mb-4" >Alumno
+        </h2>
+        <form class="form-inline mt-2 mb-4" action="{% url 'alumno-search' %}" method="get">
+            <input type="search" name="q" placeholder="buscar alumno" class="form-control form-control mr-sm-2" />
+        </form>
+        {% for alumno in object_list %}
+            <div class="col-md-3">
+                <div class="card p-4 mb-4 box-shadow ">
+                    <p class="text-center"><a href=" {% url 'alumno-detail' alumno.user.id %} ">{{ alumno.nomAlu }}</a></p>
+                    <p class="text-center mb-0">{{ alumno.mail }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

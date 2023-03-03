@@ -1,19 +1,24 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p>nombre: {{ object.nomEmp }}</p>
-    <p>logo: {{ object.logo }}</p>
-    <p>razon: {{ object.razon }}</p>
-    <p>numero de trabajadores: {{ object.numTra }}</p>
-    <p>web: <a href="{{ object.web }}">{{ object.web }}</a></p>
-    <p>forma: {{ object.forma }}</p>
-    <p>ramo: {{ object.ramo }}</p>
-    <p>tam: {{ object.tam }}</p>
-    <h2>Contactos <a href="{% url 'contactos-add' %}">Añadir</a></h2>
-    {% for contac in object.contactos_set.all %}
-        <p>nombre: <a href="{% url 'contactos-detail' contac.id %}">{{ contac.nombre }}</a>
-             <a href="{% url 'contactos-update' contac.id %}">EDITART</a>
-             <a href="{% url 'contactos-delete' contac.id %}">ELIMINAR</a> 
-        </p>
+    <img style="height: 64px; width: 64px; display: block;" class="float-end" src="/media/{{ object.logo }}" alt="Logo Empresa">
+    <p>Nombre: {{ object.nomEmp }}</p> 
+    <p>Razon: {{ object.razon }}</p>
+    <p>Numero de trabajadores: {{ object.numTra }}</p>
+    <p>Web: <a href="{{ object.web }}">Link</a></p>
+    <p>Forma: {{ object.forma }}</p>
+    <p>Ramo: {{ object.ramo }}</p>
+    <p>Tamaño: {{ object.tam }}</p>
+    <h2>Sede <a href=" {% url 'sede-add' %} "><button type="button" class="btn btn-sm btn-outline-primary">AÑADIR</button></a></h2>
+    {% for sede in object.sede_set.all %}
+        <p>CP: {{ sede.cpSed }}</p>
+    {% endfor %}
+    <h2>Contactos <a href=" {% url 'contacto-add' %} "><button type="button" class="btn btn-sm btn-outline-primary">AÑADIR</button></a></h2>
+    {% for contac in object.contacto_set.all %}
+        <p>
+            <a href="{% url 'contacto-detail' contac.user.id %}">{{ contac.empleado.nomEmp }}</a>
+            <a href=" {% url 'contacto-update' contac.user.id %} "><button type="button" class="btn btn-sm btn-outline-secondary">Edit</button></a>
+            <a href=" {% url 'contacto-delete' contac.user.id %} "><button type="button" class="btn btn-sm btn-outline-danger">Delete</button></a>
+        </p> 
     {% endfor %}
 {% endblock %}
