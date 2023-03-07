@@ -4,23 +4,22 @@
     <h2 class="text-center mb-4" >Trayectos
         <a href=" {% url 'trayecto-add' %} "><button type="button" class="btn btn-sm btn-outline-primary">AÑADIR</button></a>
     </h2>
-    <div class="row">
-        <div class="col-md-4">
-            <form class="form-inline mt-2 mb-4" action="{% url 'trayecto-search-alumno' %}" method="get">
-                <input type="search" name="q" placeholder="buscar alumno" class="form-control form-control mr-sm-2" />
-            </form>
-        </div>
-        <div class="col-md-4">
-            <form class="form-inline mt-2 mb-4" action="{% url 'trayecto-search-ciclo' %}" method="get">
-                <input type="search" name="q" placeholder="buscar ciclo" class="form-control form-control mr-sm-2" />
-            </form>
-        </div>
-        <div class="col-md-4">
-            <form class="form-inline mt-2 mb-4" action="{% url 'trayecto-search-promo' %}" method="get">
-                <input type="search" name="q" placeholder="buscar promocion" class="form-control form-control mr-sm-2" />
-            </form>
-        </div>
-    </div>
+    <form class="form-inline mt-2 mb-4" action="{% url 'trayecto-search' %}" method="get">
+        <div class="row">
+            <div class="col-md-4">
+                <input type="search" name="a" placeholder="buscar alumno" class="form-control form-control mr-sm-2" />
+            </div>
+            <div class="col-md-4">
+                <input type="search" name="c" placeholder="buscar ciclo" class="form-control form-control mr-sm-2" />
+            </div>
+            <div class="col-md-4">
+                <input type="search" name="f" placeholder="buscar promo" class="form-control form-control mr-sm-2" />
+            </div>
+            <div class="text-end">
+                <button type="submit" value="Save" class="btn btn-sm btn-outline-primary">BUSCAR</button>
+            </div>
+        </div>   
+    </form>
     <table class="table table-striped">
         <thead>
             <tr>

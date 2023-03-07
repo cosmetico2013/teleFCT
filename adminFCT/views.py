@@ -467,38 +467,22 @@ class TrayectoDeleteView(LoginRequiredMixin,DeleteView):
         else:
             raise PermissionDenied
 
-class TrayectoSearchAlumno(LoginRequiredMixin,ListView):
+class TrayectoSearch(LoginRequiredMixin,ListView):
     login_url = 'login'
     model = Trayecto
     def get_queryset(self):
-        query = self.request.GET.get("q")
-        obj = Trayecto.objects.filter( Q (alumno__nomAlu__icontains=query))
         es=user_profesor(self)
         if es:
-            return obj
-        else:
-            raise PermissionDenied
-
-class TrayectoSearchCiclo(LoginRequiredMixin,ListView):
-    login_url = 'login'
-    model = Trayecto
-    def get_queryset(self):
-        query = self.request.GET.get("q")
-        obj = Trayecto.objects.filter( Q (ciclo__abre__icontains=query))
-        es=user_profesor(self)
-        if es:
-            return obj
-        else:
-            raise PermissionDenied
-
-class TrayectoSearchPromocion(LoginRequiredMixin,ListView):
-    login_url = 'login'
-    model = Trayecto
-    def get_queryset(self):
-        query = self.request.GET.get("q")
-        obj = Trayecto.objects.filter( Q (fpromo__icontains=query))
-        es=user_profesor(self)
-        if es:
+            query = self.request.GET.get("a")
+            query2 = self.request.GET.get("c")
+            query3 = self.request.GET.get("f")
+            obj = Trayecto.objects.all()
+            if query:
+                obj = obj.filter( Q (alumno__nomAlu__icontains=query))
+            if query2:
+                obj = obj.filter( Q (ciclo__abre__icontains=query2))
+            if query3:
+                obj = obj.filter( Q (fpromo__icontains=query3))
             return obj
         else:
             raise PermissionDenied
@@ -655,29 +639,23 @@ class ContactodeleteView(LoginRequiredMixin,DeleteView):
         else:
             raise PermissionDenied
 
-class ContactoSearchNombre(LoginRequiredMixin,ListView):
+class ContactoSearch(LoginRequiredMixin,ListView):
     login_url = 'login'
     model = Contacto
     def get_queryset(self):
-        query = self.request.GET.get("q")
-        obj = Contacto.objects.filter( Q (empleado__nomEmp__icontains=query))
         es=user_profesor(self)
         if es:
+            query = self.request.GET.get("c")
+            query2 = self.request.GET.get("e")
+            obj = Contacto.objects.all()
+            if query:
+                obj = obj.filter( Q (empleado__nomEmp__icontains=query))
+            if query2:
+                obj = obj.filter( Q (empresa__nomEmp__icontains=query2))
             return obj
         else:
             raise PermissionDenied
 
-class ContactoSearchEmpresa(LoginRequiredMixin,ListView):
-    login_url = 'login'
-    model = Contacto
-    def get_queryset(self):
-        query = self.request.GET.get("q")
-        obj = Contacto.objects.filter( Q (empresa__nomEmp__icontains=query))
-        es=user_profesor(self)
-        if es:
-            return obj
-        else:
-            raise PermissionDenied
 
 
 #vista para contrato
@@ -850,15 +828,20 @@ class ContratoDeleteView(LoginRequiredMixin,DeleteView):
         else:
             raise PermissionDenied
 
-class ContratoSearchAlumno(LoginRequiredMixin,ListView):
+class ContratoSearch(LoginRequiredMixin,ListView):
     login_url = 'login'
     model = Contrato
     def get_queryset(self):
-        query = self.request.GET.get("q")
-        obj = Contrato.objects.filter( Q (alumno__nomAlu__icontains=query))
         es=user_profesor(self)
         estu=user_estudiante(self)
         if es==True or estu==True:
+            query = self.request.GET.get("a")
+            query2 = self.request.GET.get("e")
+            obj = Contrato.objects.all()
+            if query:
+                obj = obj.filter( Q (alumno__nomAlu__icontains=query))
+            if query2:
+                obj = obj.filter( Q (empresa__nomEmp__icontains=query2))
             return obj
         else:
             raise PermissionDenied
@@ -1197,50 +1180,25 @@ class PracticaDeleteView(LoginRequiredMixin,DeleteView):
         else:
             raise PermissionDenied
 
-class PracticaSearchAlumno(LoginRequiredMixin,ListView):
+class PracticaSearch(LoginRequiredMixin,ListView):
     login_url = 'login'
     model = Practica
     def get_queryset(self):
-        query = self.request.GET.get("q")
-        obj = Practica.objects.filter( Q (alumno__nomAlu__icontains=query))
         es=user_profesor(self)
         if es==True:
-            return obj
-        else:
-            raise PermissionDenied
-
-class PracticaSearchCiclo(LoginRequiredMixin,ListView):
-    login_url = 'login'
-    model = Practica
-    def get_queryset(self):
-        query = self.request.GET.get("q")
-        obj = Practica.objects.filter( Q (ciclo__abre__icontains=query))
-        es=user_profesor(self)
-        if es==True:
-            return obj
-        else:
-            raise PermissionDenied
-
-class PracticaSearchProfesor(LoginRequiredMixin,ListView):
-    login_url = 'login'
-    model = Practica
-    def get_queryset(self):
-        query = self.request.GET.get("q")
-        obj = Practica.objects.filter( Q (profesor__empleado__nomEmp__icontains=query))
-        es=user_profesor(self)
-        if es==True:
-            return obj
-        else:
-            raise PermissionDenied
-
-class PracticaSearchContacto(LoginRequiredMixin,ListView):
-    login_url = 'login'
-    model = Practica
-    def get_queryset(self):
-        query = self.request.GET.get("q")
-        obj = Practica.objects.filter( Q (contacto__empleado__nomEmp__icontains=query))
-        es=user_profesor(self)
-        if es==True:
+            query = self.request.GET.get("a")
+            query2 = self.request.GET.get("c")
+            query3 = self.request.GET.get("p")
+            query4 = self.request.GET.get("o")
+            obj = Practica.objects.all()
+            if query:
+                obj = obj.filter( Q (alumno__nomAlu__icontains=query))
+            if query2:
+                obj = obj.filter( Q (ciclo__abre__icontains=query2))
+            if query3:
+                obj = obj.filter( Q (profesor__empleado__nomEmp__icontains=query3))
+            if query4:
+                obj = obj.filter( Q (contacto__empleado__nomEmp__icontains=query4))
             return obj
         else:
             raise PermissionDenied
@@ -1456,10 +1414,7 @@ class OfertaListView(LoginRequiredMixin,ListView):
             return obj
         else:
             raise PermissionDenied
-    def get_context_data(self, **kwargs):
-        contex = super(OfertaListView, self).get_context_data(**kwargs)
-        contex['form']=True
-        return contex
+    
 
 class OfertaAlumnoListView(LoginRequiredMixin,ListView):
     login_url = 'login'
@@ -1473,6 +1428,10 @@ class OfertaAlumnoListView(LoginRequiredMixin,ListView):
             return obj
         else:
             raise PermissionDenied
+    def get_context_data(self, **kwargs):
+        contex = super(OfertaListView, self).get_context_data(**kwargs)
+        contex['form']=True
+        return contex
 
 
 class OfertaDetailView(LoginRequiredMixin,DetailView):
@@ -1594,92 +1553,34 @@ class OfertaDeleteView(LoginRequiredMixin,DeleteView):
         else:
             raise PermissionDenied
 
-class OfertaSearchNombre(LoginRequiredMixin, ListView):
+class OfertaSearch(LoginRequiredMixin, ListView):
     login_url = 'login'
     model = Oferta
     Template_name = 'oferta_list.html'
     def get_queryset (self):
-        quitar=Empresa.objects.get(nomEmp=empreAlum)
-        query = self.request.GET.get("q")
-        obj = Oferta.objects.filter( Q (nomOfe__icontains=query)).exclude(empresa=quitar).order_by("-id")
         es=user_profesor(self)
         estu=user_estudiante(self)
         if es==True or estu==True:
-            return obj
-        else:
-            raise PermissionDenied
-
-class OfertaSearchEmpresa(LoginRequiredMixin, ListView):
-    login_url = 'login'
-    model = Oferta
-    Template_name = 'oferta_list.html'
-    def get_queryset (self):
-        quitar=Empresa.objects.get(nomEmp=empreAlum)
-        query = self.request.GET.get("q")
-        obj = Oferta.objects.filter( Q (empresa__nomEmp__icontains=query)).exclude(empresa=quitar).order_by("-id")
-        es=user_profesor(self)
-        estu=user_estudiante(self)
-        if es==True or estu==True:
-            return obj
-        else:
-            raise PermissionDenied
-
-class OfertaSearchContacto(LoginRequiredMixin, ListView):
-    login_url = 'login'
-    model = Oferta
-    Template_name = 'oferta_list.html'
-    def get_queryset (self):
-        quitar=Empresa.objects.get(nomEmp=empreAlum)
-        query = self.request.GET.get("q")
-        obj = Oferta.objects.filter( Q (contacto__empleado__nomEmp__icontains=query)).exclude(empresa=quitar).order_by("-id")
-        es=user_profesor(self)
-        estu=user_estudiante(self)
-        if es==True or estu==True:
-            return obj
-        else:
-            raise PermissionDenied
-
-class OfertaSearchRequisito(LoginRequiredMixin, ListView):
-    login_url = 'login'
-    model = Oferta
-    Template_name = 'oferta_list.html'
-    def get_queryset (self):
-        quitar=Empresa.objects.get(nomEmp=empreAlum)
-        query = self.request.GET.get("q")
-        obj = Oferta.objects.filter( Q (especifaciones__nomReq__icontains=query)).exclude(empresa=quitar).order_by("-id")
-        es=user_profesor(self)
-        estu=user_estudiante(self)
-        if es==True or estu==True:
-            return obj
-        else:
-            raise PermissionDenied
-
-class OfertaSearchPerfil(LoginRequiredMixin, ListView):
-    login_url = 'login'
-    model = Oferta
-    Template_name = 'oferta_list.html'
-    def get_queryset (self):
-        quitar=Empresa.objects.get(nomEmp=empreAlum)
-        query = self.request.GET.get("q")
-        obj = Oferta.objects.filter( Q (competencias__nomPer__icontains=query)).exclude(empresa=quitar).order_by("-id")
-        es=user_profesor(self)
-        estu=user_estudiante(self)
-        if es==True or estu==True:
-            return obj
-        else:
-            raise PermissionDenied
-
-class OfertaSearchFuncion(LoginRequiredMixin, ListView):
-    login_url = 'login'
-    model = Oferta
-    Template_name = 'oferta_list.html'
-    def get_queryset (self):
-        quitar=Empresa.objects.get(nomEmp=empreAlum)
-        query = self.request.GET.get("q")
-        obj = Oferta.objects.filter( Q (bibliotecas__nomFun__icontains=query)).exclude(empresa=quitar).order_by("-id")
-        es=user_profesor(self)
-        estu=user_estudiante(self)
-        if es==True or estu==True:
+            query = self.request.GET.get("n")
+            query2 = self.request.GET.get("e")
+            query3 = self.request.GET.get("c")
+            query4 = self.request.GET.get("r")
+            query5 = self.request.GET.get("p")
+            query6 = self.request.GET.get("f")
+            quitar=Empresa.objects.get(nomEmp=empreAlum)
+            obj = Oferta.objects.all().exclude(empresa=quitar).order_by("-id")
+            if query:
+                obj = obj.filter( Q (nomOfe__icontains=query))
+            if query2:
+                obj = obj.filter( Q (empresa__nomEmp__icontains=query2))
+            if query3:
+                obj = obj.filter( Q (contacto__empleado__nomEmp__icontains=query3))
+            if query4:
+                obj = obj.filter( Q (especifaciones__nomReq__icontains=query4))
+            if query5:
+                obj = obj.filter( Q (competencias__nomPer__icontains=query5))
+            if query6:
+                obj = obj.filter( Q (bibliotecas__nomFun__icontains=query6))
             return obj
         else:
             raise PermissionDenied

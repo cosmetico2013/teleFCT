@@ -5,16 +5,19 @@
         <a href=" {% url 'contacto-add' %} "><button type="button" class="btn btn-sm btn-outline-primary">AÑADIR</button></a>
     </h2>
     <div class="row">
-        <div class="col-md-6">
-            <form class="form-inline mt-2 mb-4" action="{% url 'contacto-search-nombre' %}" method="get">
-                <input type="search" name="q" placeholder="buscar nombre" class="form-control form-control mr-sm-2" />
-            </form>
-        </div>
-        <div class="col-md-6">
-            <form class="form-inline mt-2 mb-4" action="{% url 'contacto-search-empresa' %}" method="get">
-                <input type="search" name="q" placeholder="buscar empresa" class="form-control form-control mr-sm-2" />
-            </form>
-        </div>
+        <form class="form-inline mt-2 mb-4" action="{% url 'contacto-search' %}" method="get">
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="search" name="c" placeholder="buscar contacto" class="form-control form-control mr-sm-2" />
+                </div>
+                <div class="col-md-6">
+                    <input type="search" name="e" placeholder="buscar Empresa" class="form-control form-control mr-sm-2" />
+                </div>
+                <div class="text-end">
+                    <button type="submit" value="Save" class="btn btn-sm btn-outline-primary">BUSCAR</button>
+                </div>
+            </div>   
+        </form>
     </div>
     <div class="row">
         {% for contacto in object_list %}

@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import ldap
+from django_auth_ldap.config import LDAPSearch, LDAPSearchUnion, GroupOfNamesType
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -70,6 +72,41 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'teleFCT.urls'
+
+AUTHENTICATION_BACKENDS = [
+    "django_auth_ldap.backend.LDAPBackend",
+    "django.contrib.auth.backends.ModelBackend",
+]
+
+AUTH_LDAP_SERVER_URI = "ldap://192.168.1.71:1389"
+
+AUTH_LDAP_BIND_DN = "cn=admin,dc=example,dc=org"
+AUTH_LDAP_BIND_PASSWORD = "patata"
+AUTH_LDAP_USER_SEARCH = LDAPSearchUnion(
+    LDAPSearch("ou=alumnos,ou=users,dc=example,dc=org", ldap.SCOPE_SUBTREE, "(uid=%(user)s)"),
+    LDAPSearch("ou=profesores,ou=users,dc=example,dc=org", ldap.SCOPE_SUBTREE, "(uid=%(user)s)"),
+)
+AUTH_LDAP_GROUP_SEARCH = LDAPSearch(
+    "ou=grupos,dc=example,dc=org", ldap.SCOPE_SUBTREE, "(objectClass=groupOfNames)"
+)
+AUTH_LDAP_GROUP_TYPE = GroupOfNamesType()
+AUTH_LDAP_USER_ATTR_MAP = {
+    "first_name": "cn",
+    "last_name": "sn",
+    "password": "userPassword"
+    }
+AUTH_LDAP_USER_FLAGS_BY_GROUP = {
+    "is_staff" : "cn=admin,ou=grupos,dc=example,dc=org",
+    "is_teacher" : "cn=profesores,ou=grupos,dc=example,dc=org",
+    "is_student" : "cn=alumnos,ou=grupos,dc=example,dc=org"
+}
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {"console": {"class": "logging.StreamHandler"}},
+    "loggers": {"django_auth_ldap": {"level": "DEBUG", "handlers": ["console"]}},
+}
 
 TEMPLATES = [
     {

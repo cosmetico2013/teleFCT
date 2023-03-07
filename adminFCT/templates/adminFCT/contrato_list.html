@@ -9,18 +9,19 @@
             <a href=" {% url 'contrato-add' %} "><button type="button" class="btn btn-sm btn-outline-primary">AÑADIR</button></a>
         {% endif %}
     </h2>
-    <div class="row">
-        <div class="col-md-6">
-            <form class="form-inline mt-2 mb-4" action="{% url 'contrato-search-alumno' %}" method="get">
-                <input type="search" name="q" placeholder="buscar alumno" class="form-control form-control mr-sm-2" />
-            </form>
-        </div>
-        <div class="col-md-6">
-            <form class="form-inline mt-2 mb-4" action="{% url 'contrato-search-empresa' %}" method="get">
-                <input type="search" name="q" placeholder="buscar empresa" class="form-control form-control mr-sm-2" />
-            </form>
-        </div>
-    </div>
+    <form class="form-inline mt-2 mb-4" action="{% url 'contrato-search' %}" method="get">
+        <div class="row">
+            <div class="col-md-6">
+                <input type="search" name="a" placeholder="buscar alumno" class="form-control form-control mr-sm-2" />
+            </div>
+            <div class="col-md-6">
+                <input type="search" name="e" placeholder="buscar empresa" class="form-control form-control mr-sm-2" />
+            </div>
+            <div class="text-end">
+                <button type="submit" value="Save" class="btn btn-sm btn-outline-primary">BUSCAR</button>
+            </div>
+        </div>   
+    </form>
     <table class="table table-striped">
         <thead>
             <tr>

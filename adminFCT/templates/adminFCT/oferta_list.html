@@ -9,37 +9,32 @@
                 <a href=" {% url 'oferta-add' %} "><button type="button" class="btn btn-sm btn-outline-primary">AÑADIR</button></a>
             {% endif %}
         </h2>
-        {% if form %}
-            <div class="col-md-4">
-                <form class="form-inline mt-2 mb-4" action="{% url 'oferta-search-nombre' %}" method="get">
-                    <input type="search" name="q" placeholder="buscar nombre" class="form-control form-control mr-sm-2" />
-                </form>
-            </div>
-            <div class="col-md-4">
-                <form class="form-inline mt-2 mb-4" action="{% url 'oferta-search-empresa' %}" method="get">
-                    <input type="search" name="q" placeholder="buscar empresa" class="form-control form-control mr-sm-2" />
-                </form>
-            </div>
-            <div class="col-md-4">
-                <form class="form-inline mt-2 mb-4" action="{% url 'oferta-search-contacto' %}" method="get">
-                    <input type="search" name="q" placeholder="buscar contacto" class="form-control form-control mr-sm-2" />
-                </form>
-            </div>
-            <div class="col-md-4">
-                <form class="form-inline mt-2 mb-4" action="{% url 'oferta-search-requisito' %}" method="get">
-                    <input type="search" name="q" placeholder="buscar requisito" class="form-control form-control mr-sm-2" />
-                </form>
-            </div>
-            <div class="col-md-4">
-                <form class="form-inline mt-2 mb-4" action="{% url 'oferta-search-perfil' %}" method="get">
-                    <input type="search" name="q" placeholder="buscar perfil" class="form-control form-control mr-sm-2" />
-                </form>
-            </div>
-            <div class="col-md-4">
-                <form class="form-inline mt-2 mb-4" action="{% url 'oferta-search-funcion' %}" method="get">
-                    <input type="search" name="q" placeholder="buscar funcion" class="form-control form-control mr-sm-2" />
-                </form>
-            </div>
+        {% if not form %}
+            <form class="form-inline mt-2 mb-4" action="{% url 'oferta-search' %}" method="get">
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="search" name="n" placeholder="buscar nombre" class="form-control form-control mr-sm-2" />
+                    </div>
+                    <div class="col-md-4">
+                        <input type="search" name="e" placeholder="buscar empresa" class="form-control form-control mr-sm-2" />
+                    </div>
+                    <div class="col-md-4">
+                        <input type="search" name="c" placeholder="buscar contacto" class="form-control form-control mr-sm-2" />
+                    </div>
+                    <div class="col-md-4">
+                        <input type="search" name="r" placeholder="buscar requisito" class="form-control form-control mr-sm-2" />
+                    </div>
+                    <div class="col-md-4">
+                        <input type="search" name="p" placeholder="buscar perfil" class="form-control form-control mr-sm-2" />
+                    </div>
+                    <div class="col-md-4">
+                        <input type="search" name="f" placeholder="buscar funcion" class="form-control form-control mr-sm-2" />
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" value="Save" class="btn btn-sm btn-outline-primary">BUSCAR</button>
+                    </div>
+                </div>   
+            </form>
         {% endif %}
         {% for oferta in object_list %}
             <div class="col-md-14">

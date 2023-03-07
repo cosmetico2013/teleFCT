@@ -21,24 +21,23 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth.views import LogoutView
 from adminFCT.views import AlumnoListView, AlumnoDetailView, AlumnoSearch
-from adminFCT.views import ContactoListView, ContactoDetailView, ContactoCreateView, ContactoUpdateView, ContactodeleteView, ContactoUpdateView2, ContactoSearchNombre, ContactoSearchEmpresa
+from adminFCT.views import ContactoListView, ContactoDetailView, ContactoCreateView, ContactoUpdateView, ContactodeleteView, ContactoUpdateView2, ContactoSearch
 from adminFCT.views import FormaListView, FormaCreateView, FormaUpdateView, FormaDeleteView
 from adminFCT.views import RamoListView, RamoCrateView, RamoUpdateView, RamoDeleteView
 from adminFCT.views import TamanoListView, TamanoCreateView, TamanoUpdateView, TamanoDeleteView
 from adminFCT.views import EmpresaDeleteView, EmpresaDetailView, EmpresaListView, EmpresaCreateView, EmpresaUpdateView, EmpresaSearch
 from adminFCT.views import CicloListView, CicloCreateView, CicloUpdateView, CicloDeleteView
-from adminFCT.views import TrayectoListView, TrayectoDetailView, TrayectoCreateView, TrayectoUpdateView, TrayectoDeleteView, TrayectoSearchAlumno, TrayectoSearchCiclo , TrayectoSearchPromocion
+from adminFCT.views import TrayectoListView, TrayectoDetailView, TrayectoCreateView, TrayectoUpdateView, TrayectoDeleteView, TrayectoSearch
 from adminFCT.views import SedeListView, SedeDetailView, SedeCreateView, SedeUpdateView, SedeDeleteView
-from adminFCT.views import ContratoListView, ContratoDetailView, ContratoCreateView, ContratoAlumnoCreateView , ContratoUpdateView, ContratoDeleteView, ContratoSearchAlumno, ContratoSearchEmpresa
+from adminFCT.views import ContratoListView, ContratoDetailView, ContratoCreateView, ContratoAlumnoCreateView , ContratoUpdateView, ContratoDeleteView, ContratoSearch
 from adminFCT.views import MedioListView, MedioCreateView, MedioUpdateView, MedioDeleteView
 from adminFCT.views import MensajeListView, MensajeDetailView, MensajeCreateView, MensajeRespuestaCreateView, MensajeUpdateView, MensajeDeleteView, MensajeSearch
-from adminFCT.views import PracticaListView, PracticaDetailView, PracticaCreateView, PracticaUpdateView, PracticaDeleteView, PracticaSearchAlumno, PracticaSearchCiclo, PracticaSearchProfesor, PracticaSearchContacto
+from adminFCT.views import PracticaListView, PracticaDetailView, PracticaCreateView, PracticaUpdateView, PracticaDeleteView, PracticaSearch
 from adminFCT.views import ToolListView, ToolCreateView, ToolUpdateView, ToolDeleteView
 from adminFCT.views import RequisitoListView, RequisitoCreateView, RequisitoUpdateView, RequisitoDeleteView
 from adminFCT.views import PerfilListView, PerfilCreateView, PerfilUpdateView, PerfilDeleteView
 from adminFCT.views import FuncionListView, FuncionCreateView, FuncionUpdateView, FuncionDeleteView
-from adminFCT.views import OfertaListView, OfertaDetailView, OfertaCreateView, OfertaUpdateView, OfertaDeleteView, OfertaAlumnoCreateView, OfertaAlumnoListView
-from adminFCT.views import OfertaSearchNombre, OfertaSearchEmpresa, OfertaSearchContacto, OfertaSearchRequisito, OfertaSearchPerfil, OfertaSearchFuncion
+from adminFCT.views import OfertaListView, OfertaDetailView, OfertaCreateView, OfertaUpdateView, OfertaDeleteView, OfertaAlumnoCreateView, OfertaAlumnoListView, OfertaSearch
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -91,9 +90,7 @@ urlpatterns = [
     path('trayecto/add', TrayectoCreateView.as_view(), name='trayecto-add'),
     path('trayecto/<int:pk>/update', TrayectoUpdateView.as_view(), name='trayecto-update'),
     path('trayecto/<int:pk>/delete', TrayectoDeleteView.as_view(), name='trayecto-delete'),
-    path('trayecto/search/nombre', TrayectoSearchAlumno.as_view(), name='trayecto-search-alumno'),
-    path('trayecto/search/ciclo', TrayectoSearchCiclo.as_view(), name='trayecto-search-ciclo'),
-    path('trayecto/search/promo', TrayectoSearchPromocion.as_view(), name='trayecto-search-promo'),
+    path('trayecto/search', TrayectoSearch.as_view(), name='trayecto-search'),
 
     #url para sede
     path('sede/', SedeListView.as_view(), name='sede-list'),
@@ -109,8 +106,7 @@ urlpatterns = [
     path('contacto/<int:pk>/update', ContactoUpdateView.as_view(), name='contacto-update'),
     path('contacto/<int:pk>/update2', ContactoUpdateView2.as_view(), name='contacto-update2'),
     path('contacto/<int:pk>/delete', ContactodeleteView.as_view(), name='contacto-delete'),
-    path('contacto/search/nombre', ContactoSearchNombre.as_view(), name='contacto-search-nombre'),
-    path('contacto/search/empresa', ContactoSearchEmpresa.as_view(), name='contacto-search-empresa'),
+    path('contacto/search/', ContactoSearch.as_view(), name='contacto-search'),
 
     #url para contrato
     path('contrato/', ContratoListView.as_view(), name='contrato-list'),
@@ -119,8 +115,7 @@ urlpatterns = [
     path('contrato/add/alumno', ContratoAlumnoCreateView.as_view(), name='contrato-alumno-add'),
     path('contrato/<int:pk>/update', ContratoUpdateView.as_view(), name='contrato-update'),
     path('contrato/<int:pk>/detele', ContratoDeleteView.as_view(), name='contrato-delete'),
-    path('contrato/search/alumno', ContratoSearchAlumno.as_view(), name='contrato-search-alumno'),
-    path('contrato/search/empresa', ContratoSearchEmpresa.as_view(), name='contrato-search-empresa'),
+    path('contrato/search/', ContratoSearch.as_view(), name='contrato-search'),
 
     #url para Medio
     path('medio/', MedioListView.as_view(), name='medio-list'),
@@ -143,10 +138,7 @@ urlpatterns = [
     path('practica/add', PracticaCreateView.as_view(), name='practica-add'),
     path('practica/<int:pk>/update', PracticaUpdateView.as_view(), name='practica-update'),
     path('practica/<int:pk>/delete', PracticaDeleteView.as_view(), name='practica-delete'),
-    path('practica/search/alumno', PracticaSearchAlumno.as_view(), name='practica-search-alumno'),
-    path('practica/search/ciclo', PracticaSearchCiclo.as_view(), name='practica-search-ciclo'),
-    path('practica/search/profesor', PracticaSearchProfesor.as_view(), name='practica-search-profesor'),
-    path('practica/search/contacto', PracticaSearchContacto.as_view(), name='practica-search-contacto'),
+    path('practica/search/', PracticaSearch.as_view(), name='practica-search'),
 
     #url para tool
     path('tool/', ToolListView.as_view(), name='tool-list'),
@@ -180,12 +172,7 @@ urlpatterns = [
     path('oferta/alu-add', OfertaAlumnoCreateView.as_view(), name='oferta-alumno-add'),
     path('oferta/<int:pk>/update', OfertaUpdateView.as_view(), name='oferta-update'),
     path('oferta/<int:pk>/delete', OfertaDeleteView.as_view(), name='oferta-delete'),
-    path('oferta/search/nombre', OfertaSearchNombre.as_view(), name='oferta-search-nombre'),
-    path('oferta/search/empresa', OfertaSearchEmpresa.as_view(), name='oferta-search-empresa'),
-    path('oferta/search/contacto', OfertaSearchContacto.as_view(), name='oferta-search-contacto'),
-    path('oferta/search/requisito', OfertaSearchRequisito.as_view(), name='oferta-search-requisito'),
-    path('oferta/search/perfil', OfertaSearchPerfil.as_view(), name='oferta-search-perfil'),
-    path('oferta/search/funcion', OfertaSearchFuncion.as_view(), name='oferta-search-funcion'),
+    path('oferta/search/', OfertaSearch.as_view(), name='oferta-search'),
 
     path('logout/', LogoutView.as_view(template_name='registration/logout.html'), name='logout'),
 ]
