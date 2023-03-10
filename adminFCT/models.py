@@ -99,7 +99,7 @@ class Trayecto(models.Model):
 
 class Sede(models.Model):
     empresa = models.ForeignKey('Empresa', on_delete=models.CASCADE)
-    cpSed = models.DecimalField(max_digits=20, decimal_places=0, default=0)
+    cpSed = models.ForeignKey('Distrito', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.empresa.nomEmp+' '+str(self.cpSed)

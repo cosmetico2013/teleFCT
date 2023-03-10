@@ -519,6 +519,16 @@ class SedeCreateView(LoginRequiredMixin,CreateView):
             return obj
         else:
             raise PermissionDenied
+    def form_valid(self, form):
+        error=False
+        empre=Empresa.objects.get(nomEmp=EMPRESA_FANTASMA)
+        if form.instance.empresa == empre:
+            form.add_error("empresa","Esta empresa no es valida.")
+            error=True
+            solu = super().form_invalid(form)
+        if not error:
+            solu = super().form_valid(form)
+        return solu
 
 class SedeUpdateView(LoginRequiredMixin,UpdateView):
     login_url = 'login'
@@ -533,6 +543,16 @@ class SedeUpdateView(LoginRequiredMixin,UpdateView):
             return obj
         else:
             raise PermissionDenied
+    def form_valid(self, form):
+        error=False
+        empre=Empresa.objects.get(nomEmp=EMPRESA_FANTASMA)
+        if form.instance.empresa == empre:
+            form.add_error("empresa","Esta empresa no es valida.")
+            error=True
+            solu = super().form_invalid(form)
+        if not error:
+            solu = super().form_valid(form)
+        return solu
 
 class SedeDeleteView(LoginRequiredMixin,DeleteView):
     login_url = 'login'
