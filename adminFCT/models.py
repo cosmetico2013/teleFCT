@@ -22,8 +22,16 @@ class Profesor(models.Model):
     def __str__(self):
         return self.empleado.nomEmp
 
+class Distrito(models.Model):
+    cp = models.CharField(max_length=15, unique=True)
+    distri = models.CharField(max_length=70)
+
+    def __str__(self):
+        return self.cp+" "+self.distri
+
 class Alumno(models.Model):
     user = models.OneToOneField('User', on_delete=models.CASCADE, primary_key=True)
+    cpAlu = models.ForeignKey('Distrito', on_delete=models.CASCADE)
     nomAlu = models.CharField(max_length=100)
     movil = models.CharField(max_length=20, blank=True, null=True)
     mail = models.EmailField()
@@ -32,7 +40,6 @@ class Alumno(models.Model):
     fnac = models.DateField() #fecha de nacimiento
     sex = models.CharField(max_length=1)
     dis = models.DecimalField(max_digits=3, decimal_places=0, default=0) #discapacidad en porcentaje
-    cpAlu = models.DecimalField(max_digits=20, decimal_places=0, default=0)
 
     def __str__(self):
         return self.nomAlu

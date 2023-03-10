@@ -54,10 +54,8 @@ INSTALLED_APPS = [
     'bootstrap5',
     'tempus_dominus',
     'django_extensions',
-    'django_registration',
+    #'django_registration',
     'rest_framework',
-    'corsheaders',
-    'multi_form_view',
 ]
 
 MIDDLEWARE = [
@@ -68,7 +66,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware'
 ]
 
 ROOT_URLCONF = 'teleFCT.urls'
@@ -214,3 +211,5 @@ MEDIA_ROOT = BASE_DIR / ".." / "static_env" / "media_root"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMPRESA_FANTASMA = 'vacia'

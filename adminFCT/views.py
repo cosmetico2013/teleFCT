@@ -12,14 +12,13 @@ from django.db.models import Q
 
 from adminFCT.models import Empresa, Contrato, Profesor, Alumno, User, Trayecto, Ciclo, Practica
 from adminFCT.models import Empleado, Mensaje, Contacto, Sede, Oferta, Tool, Perfil, Funcion, Requisito
-from adminFCT.models import Forma, Ramo, Tamano, Medio
+from adminFCT.models import Forma, Ramo, Tamano, Medio, Distrito
 
+from teleFCT.settings import EMPRESA_FANTASMA
 import secrets
 import string
 
 #funciones
-
-empreAlum='vacia'
 
 letters = string.ascii_letters
 digits = string.digits
@@ -28,7 +27,7 @@ special_chars = string.punctuation
 alphabet = letters + digits + special_chars
 pwd_length = 12
 
-def contraseña(contra):
+def contraseña():
     contra = ''
     for i in range(pwd_length):
         contra+=''.join(secrets.choice(alphabet))
@@ -66,10 +65,6 @@ def user_contacto(self):
     return resul
 
 # Create your views here.
-
-#vista de index
-def index(request):
-    return render(request,'adminFCT/index.html')
 
 #vista alumno
 
@@ -262,7 +257,7 @@ class EmpresaListView(LoginRequiredMixin,ListView):
     login_url = 'login'
     model = Empresa
     def get_queryset(self):
-        obj=Empresa.objects.all().exclude(nomEmp=empreAlum)
+        obj=Empresa.objects.all().exclude(nomEmp=EMPRESA_FANTASMA)
         es=user_profesor(self)
         if es:
             return obj
@@ -324,7 +319,7 @@ class EmpresaSearch(LoginRequiredMixin,ListView):
     model = Empresa
     def get_queryset(self):
         query = self.request.GET.get("q")
-        obj = Empresa.objects.filter( Q (nomEmp__icontains=query)).exclude(nomEmp=empreAlum)
+        obj = Empresa.objects.filter( Q (nomEmp__icontains=query)).exclude(nomEmp=EMPRESA_FANTASMA)
         es=user_profesor(self)
         if es:
             return obj
@@ -590,12 +585,12 @@ class ContactoCreateView(LoginRequiredMixin,CreateView):
         else:
             raise PermissionDenied
     def form_valid(self, form):
-        form.instance.password = contraseña('')
+        form.instance.password = contraseña()
         form.instance.is_active = False
         form.instance.is_contact = True
         form.save()
         emple = Empleado.objects.create(nomEmp=form.instance.username)
-        empre = Empresa.objects.get(nomEmp=empreAlum)
+        empre = Empresa.objects.get(nomEmp=EMPRESA_FANTASMA)
         conta = Contacto.objects.create(user=form.instance, empresa=empre, empleado=emple, mailCon=form.instance.email, movCon='000000')
         return redirect("contacto-update2", pk=conta.pk)
 
@@ -715,11 +710,14 @@ class ContratoCreateView(LoginRequiredMixin,CreateView):
         else:
             raise PermissionDenied
     def form_valid(self, form):
-        solu = super().form_valid(form)
-        empre=Empresa.objects.get(nomEmp=empreAlum)
+        error=False
+        empre=Empresa.objects.get(nomEmp=EMPRESA_FANTASMA)
         if form.instance.empresa == empre:
             form.add_error("empresa","Esta empresa no es valida.")
+            error=True
             solu = super().form_invalid(form)
+        if not error:
+            solu = super().form_valid(form)
         return solu
 
 class ContratoAlumnoCreateView(LoginRequiredMixin,CreateView):
@@ -755,11 +753,14 @@ class ContratoAlumnoCreateView(LoginRequiredMixin,CreateView):
     def form_valid(self, form):
         alumno = Alumno.objects.get(user=self.request.user)
         form.instance.alumno = alumno
-        solu = super().form_valid(form)
-        empre=Empresa.objects.get(nomEmp=empreAlum)
+        error=False
+        empre=Empresa.objects.get(nomEmp=EMPRESA_FANTASMA)
         if form.instance.empresa == empre:
             form.add_error("empresa","Esta empresa no es valida.")
+            error=True
             solu = super().form_invalid(form)
+        if not error:
+            solu = super().form_valid(form)
         return solu
 
 class ContratoUpdateView(LoginRequiredMixin,UpdateView):
@@ -800,18 +801,21 @@ class ContratoUpdateView(LoginRequiredMixin,UpdateView):
         else:
             raise PermissionDenied
     def form_valid(self, form):
-        solu = super().form_valid(form)
-        empre = Empresa.objects.get(nomEmp=empreAlum)
+        empre = Empresa.objects.get(nomEmp=EMPRESA_FANTASMA)
+        error=False
         if self.request.user.is_student:
             alumno = Alumno.objects.get(user=self.request.user)
             if not form.instance.alumno == alumno:
                 form.add_error("alumno","No puedes cambiar el alumno de este contrato.")
+                error=True
                 solu = super().form_invalid(form)
         if form.instance.empresa == empre:
             form.add_error("empresa","Esta empresa no es valida.")
+            error=True
             solu = super().form_invalid(form)
+        if not error:
+            solu = super().form_valid(form)
         return solu
-    
 
 class ContratoDeleteView(LoginRequiredMixin,DeleteView):
     login_url = 'login'
@@ -1406,7 +1410,7 @@ class OfertaListView(LoginRequiredMixin,ListView):
     login_url = 'login'
     model = Oferta
     def get_queryset(self):
-        quitar=Empresa.objects.get(nomEmp=empreAlum)
+        quitar=Empresa.objects.get(nomEmp=EMPRESA_FANTASMA)
         obj=Oferta.objects.all().exclude(empresa=quitar).order_by("-id")
         es=user_profesor(self)
         estu=user_estudiante(self)
@@ -1420,7 +1424,7 @@ class OfertaAlumnoListView(LoginRequiredMixin,ListView):
     login_url = 'login'
     model = Oferta
     def get_queryset(self):
-        quitar=Empresa.objects.get(nomEmp=empreAlum)
+        quitar=Empresa.objects.get(nomEmp=EMPRESA_FANTASMA)
         obj=Oferta.objects.filter(empresa=quitar).order_by("-id")
         es=user_profesor(self)
         estu=user_estudiante(self)
@@ -1429,7 +1433,7 @@ class OfertaAlumnoListView(LoginRequiredMixin,ListView):
         else:
             raise PermissionDenied
     def get_context_data(self, **kwargs):
-        contex = super(OfertaListView, self).get_context_data(**kwargs)
+        contex = super(OfertaAlumnoListView, self).get_context_data(**kwargs)
         contex['form']=True
         return contex
 
@@ -1468,14 +1472,18 @@ class OfertaCreateView(LoginRequiredMixin,CreateView):
         else:
             raise PermissionDenied
     def form_valid(self, form):
-        solu = super().form_valid(form)
+        error=False
         if not form.instance.empresa and not form.instance.contacto:
             form.add_error("empresa","Debe de tener al menos una empresa o un contacto seleccionado.")
+            error=True
             solu = super().form_invalid(form)
-        empre=Empresa.objects.get(nomEmp=empreAlum)
+        empre=Empresa.objects.get(nomEmp=EMPRESA_FANTASMA)
         if form.instance.empresa == empre:
             form.add_error("empresa","Esta empresa no es valida.")
+            error=True
             solu = super().form_invalid(form)
+        if not error:
+            solu = super().form_valid(form)
         return solu
 
 class OfertaAlumnoCreateView(LoginRequiredMixin,CreateView):
@@ -1500,7 +1508,7 @@ class OfertaAlumnoCreateView(LoginRequiredMixin,CreateView):
         else:
             raise PermissionDenied
     def form_valid(self, form):
-        empre=Empresa.objects.get(nomEmp=empreAlum)
+        empre=Empresa.objects.get(nomEmp=EMPRESA_FANTASMA)
         form.instance.empresa=empre
         return super().form_valid(form)
 
@@ -1530,15 +1538,19 @@ class OfertaUpdateView(LoginRequiredMixin,UpdateView):
         else:
             raise PermissionDenied
     def form_valid(self, form):
-        solu = super().form_valid(form)
+        error=False
         print(form.instance.empresa)
         if not form.instance.empresa and not form.instance.contacto:
             form.add_error("empresa","Debe de tener al menos una empresa o un contacto seleccionado.")
+            error=True
             solu = super().form_invalid(form)
-        empre=Empresa.objects.get(nomEmp=empreAlum)
+        empre=Empresa.objects.get(nomEmp=EMPRESA_FANTASMA)
         if form.instance.empresa == empre:
             form.add_error("empresa","Esta empresa no es valida.")
+            error=True
             solu = super().form_invalid(form)
+        if not error:
+            solu = super().form_valid(form)
         return solu
 
 class OfertaDeleteView(LoginRequiredMixin,DeleteView):
@@ -1567,7 +1579,7 @@ class OfertaSearch(LoginRequiredMixin, ListView):
             query4 = self.request.GET.get("r")
             query5 = self.request.GET.get("p")
             query6 = self.request.GET.get("f")
-            quitar=Empresa.objects.get(nomEmp=empreAlum)
+            quitar=Empresa.objects.get(nomEmp=EMPRESA_FANTASMA)
             obj = Oferta.objects.all().exclude(empresa=quitar).order_by("-id")
             if query:
                 obj = obj.filter( Q (nomOfe__icontains=query))
@@ -1581,6 +1593,71 @@ class OfertaSearch(LoginRequiredMixin, ListView):
                 obj = obj.filter( Q (competencias__nomPer__icontains=query5))
             if query6:
                 obj = obj.filter( Q (bibliotecas__nomFun__icontains=query6))
+            return obj
+        else:
+            raise PermissionDenied
+
+
+# vistas de distritos
+class DistritoListView(LoginRequiredMixin,ListView):
+    login_url = 'login'
+    model = Distrito
+    def get_queryset(self):
+        obj=Distrito.objects.all()
+        if self.request.user.is_staff:
+            return obj
+        else:
+            raise PermissionDenied
+
+class DistritoCreateView(LoginRequiredMixin,CreateView):
+    login_url = 'login'
+    model = Distrito
+    success_url= reverse_lazy("distrito-list")
+    fields = ['cp','distri']
+    def get_form(self):
+        obj=super().get_form()
+        if self.request.user.is_staff:
+            return obj
+        else:
+            raise PermissionDenied
+
+class DistritoUpdateView(LoginRequiredMixin,UpdateView):
+    login_url = 'login'
+    model = Distrito
+    success_url= reverse_lazy("distrito-list")
+    fields = ['cp','distri']
+    template_name_suffix = '_update_form'
+    def get_object(self):
+        obj=super().get_object()
+        if self.request.user.is_staff:
+            return obj
+        else:
+            raise PermissionDenied
+
+class DistritoDeleteView(LoginRequiredMixin,DeleteView):
+    login_url = 'login'
+    model = Distrito
+    success_url= reverse_lazy("distrito-list")
+    def get_object(self):
+        obj=super().get_object()
+        if self.request.user.is_staff:
+            return obj
+        else:
+            raise PermissionDenied
+
+class DistritoSearch(LoginRequiredMixin, ListView):
+    login_url = 'login'
+    model = Distrito
+    Template_name = 'oferta_list.html'
+    def get_queryset (self):
+        if self.request.user.is_staff:
+            query = self.request.GET.get("c")
+            query2 = self.request.GET.get("d")
+            obj = Distrito.objects.all()
+            if query:
+                obj = obj.filter( Q (cp__icontains=query))
+            if query2:
+                obj = obj.filter( Q (distri__icontains=query2))
             return obj
         else:
             raise PermissionDenied

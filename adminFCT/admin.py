@@ -1,7 +1,7 @@
 from django.contrib import admin
 from adminFCT.models import Empresa, Contrato, Profesor, Alumno, User, Trayecto, Ciclo, Practica
 from adminFCT.models import Empleado, Mensaje, Contacto, Sede, Oferta, Tool, Perfil, Funcion, Requisito
-from adminFCT.models import Forma, Ramo, Tamano, Medio
+from adminFCT.models import Forma, Ramo, Tamano, Medio, Distrito
 
 # Register your models here.
 admin.site.register(Empresa)
@@ -25,3 +25,4 @@ admin.site.register(Forma)
 admin.site.register(Ramo)
 admin.site.register(Tamano)
 admin.site.register(Medio)
+admin.site.register(Distrito)

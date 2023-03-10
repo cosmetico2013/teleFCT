@@ -16,7 +16,6 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.urls.conf import include
-from adminFCT.views import index
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth.views import LogoutView
@@ -38,10 +37,10 @@ from adminFCT.views import RequisitoListView, RequisitoCreateView, RequisitoUpda
 from adminFCT.views import PerfilListView, PerfilCreateView, PerfilUpdateView, PerfilDeleteView
 from adminFCT.views import FuncionListView, FuncionCreateView, FuncionUpdateView, FuncionDeleteView
 from adminFCT.views import OfertaListView, OfertaDetailView, OfertaCreateView, OfertaUpdateView, OfertaDeleteView, OfertaAlumnoCreateView, OfertaAlumnoListView, OfertaSearch
+from adminFCT.views import DistritoListView, DistritoCreateView, DistritoUpdateView, DistritoDeleteView, DistritoSearch
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #path('', index, name='index'),
 
     #url para accounts
     path('accounts/', include('django_registration.backends.one_step.urls')),
@@ -173,6 +172,13 @@ urlpatterns = [
     path('oferta/<int:pk>/update', OfertaUpdateView.as_view(), name='oferta-update'),
     path('oferta/<int:pk>/delete', OfertaDeleteView.as_view(), name='oferta-delete'),
     path('oferta/search/', OfertaSearch.as_view(), name='oferta-search'),
+
+    #url para distrito
+    path('distrito/', DistritoListView.as_view(), name='distrito-list'),
+    path('distrito/add', DistritoCreateView.as_view(), name='distrito-add'),
+    path('distrito/<int:pk>/update', DistritoUpdateView.as_view(), name='distrito-update'),
+    path('distrito/<int:pk>/delete', DistritoDeleteView.as_view(), name='distrito-delete'),
+    path('distrito/search', DistritoSearch.as_view(), name='distrito-search'),
 
     path('logout/', LogoutView.as_view(template_name='registration/logout.html'), name='logout'),
 ]

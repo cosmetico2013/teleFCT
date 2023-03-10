@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2 class="text-center mb-4" >Distrito
+        <a href=" {% url 'distrito-add' %} "><button type="button" class="btn btn-sm btn-outline-primary">AÑADIR</button></a>
+    </h2>
+    <form class="form-inline mt-2 mb-4" action="{% url 'distrito-search' %}" method="get">
+        <div class="row">
+            <div class="col-md-6">
+                <input type="search" name="c" placeholder="buscar cp" class="form-control form-control mr-sm-2" />
+            </div>
+            <div class="col-md-6">
+                <input type="search" name="d" placeholder="buscar distrito" class="form-control form-control mr-sm-2" />
+            </div>
+            <div class="text-end">
+                <button type="submit" value="Save" class="btn btn-sm btn-outline-primary">BUSCAR</button>
+            </div>
+        </div>   
+    </form>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">cp</th>
+                <th scope="col">Distrito</th>
+                <th scope="col">Edicion</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for distrito in object_list %}
+                <tr>
+                    <td>{{ distrito.cp }}</td>
+                    <td>{{ distrito.distri }}</td>
+                    <td>
+                        <div class="btn-group">
+                            <a href=" {% url 'distrito-update' distrito.id %} "><button type="button" class="btn btn-sm btn-outline-secondary">Edit</button></a>
+                            <a href=" {% url 'distrito-delete' distrito.id %} "><button type="button" class="btn btn-sm btn-outline-danger">Delete</button></a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
