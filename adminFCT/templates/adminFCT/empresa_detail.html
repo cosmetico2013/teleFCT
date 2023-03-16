@@ -1,17 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <h2 class="text-center mb-4" >Empresa</h2>
     <img style="height: 64px; width: 64px; display: block;" class="float-end" src="/media/{{ object.logo }}" alt="Logo Empresa">
-    <p>Nombre: {{ object.nomEmp }}</p> 
-    <p>Razon: {{ object.razon }}</p>
-    <p>Numero de trabajadores: {{ object.numTra }}</p>
-    <p>Web: <a href="{{ object.web }}">Link</a></p>
-    <p>Forma: {{ object.forma }}</p>
-    <p>Ramo: {{ object.ramo }}</p>
-    <p>Tamaño: {{ object.tam }}</p>
+    <p><b>Nombre</b>: {{ object.nomEmp }}</p> 
+    <p><b>Razon</b>: {{ object.razon }}</p>
+    <p><b>Numero de trabajadores</b>: {{ object.numTra }}</p>
+    <p><b>Web</b>: <a href="{{ object.web }}">Link</a></p>
+    <p><b>Forma</b>: {{ object.forma }}</p>
+    <p><b>Ramo</b>: {{ object.ramo }}</p>
+    <p><b>Tamaño</b>: {{ object.tam }}</p>
     <h2>Sede <a href=" {% url 'sede-add' %} "><button type="button" class="btn btn-sm btn-outline-primary">AÑADIR</button></a></h2>
     {% for sede in object.sede_set.all %}
-        <p>CP: {{ sede.cpSed }}</p>
+        <p><b>CP</b>: {{ sede.cpSed }}</p>
     {% endfor %}
     <h2>Contactos <a href=" {% url 'contacto-add' %} "><button type="button" class="btn btn-sm btn-outline-primary">AÑADIR</button></a></h2>
     {% for contac in object.contacto_set.all %}

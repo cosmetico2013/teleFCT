@@ -4,6 +4,19 @@
     <h2 class="text-center mb-4" >Sedes
         <a href=" {% url 'sede-add' %} "><button type="button" class="btn btn-sm btn-outline-primary">AÑADIR</button></a>
     </h2>
+    <form class="form-inline mt-2 mb-4" action="{% url 'sede-search' %}" method="get">
+        <div class="row">
+            <div class="col-md-6">
+                <input type="search" name="e" placeholder="buscar empresa" class="form-control form-control mr-sm-2" />
+            </div>
+            <div class="col-md-6">
+                <input type="search" name="c" placeholder="buscar codigo postal" class="form-control form-control mr-sm-2" />
+            </div>
+            <div class="text-end">
+                <button type="submit" value="Save" class="btn btn-sm btn-outline-primary">BUSCAR</button>
+            </div>
+        </div>   
+    </form>
     <div class="row">
         {% for sede in object_list %}
             <div class="col-md-3">

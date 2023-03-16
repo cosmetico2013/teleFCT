@@ -15,14 +15,14 @@
         <tbody>
             {% for funcion in object_list %}
                 <tr>
-                    <th>{{ funcion.perfil }}</th>
-                    <th>{{ funcion.nomFun }}</th>
-                    <th>
+                    <td>{{ funcion.perfil }}</td>
+                    <td>{{ funcion.nomFun }}</td>
+                    <td>
                         <div class="btn-group">
                             <a href=" {% url 'funcion-update' funcion.id %} "><button type="button" class="btn btn-sm btn-outline-secondary">Edit</button></a>
                             <a href=" {% url 'funcion-delete' funcion.id %} "><button type="button" class="btn btn-sm btn-outline-danger">Delete</button></a>
                         </div>
-                    </th>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>

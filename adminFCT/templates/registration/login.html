@@ -1,27 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
-
-
-{% if next %}
-    {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
-    {% else %}
-    <p>Please login to see this page.</p>
-    {% endif %}
-{% endif %}
 <div class="text-center">
+    {% if next %}
+        {% if user.is_authenticated %}
+            <p>Su cuenta no tiene acceso a esta página. Para continuar, inicie sesión con una cuenta que tenga acceso.</p>
+        {% else %}
+            <p>Por favor inicie sesión para ver esta página.</p>
+        {% endif %}
+    {% endif %}
+    {% if form.errors %}
+        <p>Su nombre de usuario y contraseña no coinciden. Inténtalo de nuevo.</p>
+    {% endif %}
     <form method="post" action="{% url 'login' %}">
         {% csrf_token %}
-        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-        <label for="inputEmail" class="sr-only">Email address</label>
+        <h1 class="h3 mb-3 font-weight-normal">Por favor inicie sesión</h1>
+        <label for="inputEmail" class="sr-only">Nombre de usuario</label>
         <p>{{ form.username }}</p>
-        <label for="inputPassword" class="sr-only">Password</label>
+        <label for="inputPassword" class="sr-only">contraseña</label>
         <p>{{ form.password }}</p>
         <input class="btn btn-lg btn-primary btn-block" type="submit" value="login">
         <input type="hidden" name="next" value="{{ next }}">

@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     'django_extensions',
     #'django_registration',
     'rest_framework',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -98,12 +100,9 @@ AUTH_LDAP_USER_FLAGS_BY_GROUP = {
     "is_student" : "cn=alumnos,ou=grupos,dc=example,dc=org"
 }
 
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": False,
-    "handlers": {"console": {"class": "logging.StreamHandler"}},
-    "loggers": {"django_auth_ldap": {"level": "DEBUG", "handlers": ["console"]}},
-}
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 TEMPLATES = [
     {

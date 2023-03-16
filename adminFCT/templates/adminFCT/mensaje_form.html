@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+{% load crispy_forms_tags %}
 {% block head %}
 {# Include FontAwesome; required for icon display #}
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
@@ -14,7 +15,7 @@
 
 {% block content %}
     <form method="post">{% csrf_token %}
-        {{ form.as_p }}
+        {{ form|crispy }}
         <input type="submit" value="Save">
     </form>
 {% endblock %}

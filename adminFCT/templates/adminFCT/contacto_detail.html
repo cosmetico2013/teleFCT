@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <p>nombre: {{ object.empleado.nomEmp }}</p>
-    <p>empresa: {{ object.empresa }}</p>
-    <p>correo: {{ object.mailCon }}</p>
-    <p>telefono: {{ object.movCon }}</p>
+    <h2 class="text-center mb-4" >Contacto</h2>
+    <p><b>nombre</b>: {{ object.empleado.nomEmp }}</p>
+    <p><b>empresa</b>: {{ object.empresa }}</p>
+    <p><b>correo</b>: {{ object.mailCon }}</p>
+    <p><b>telefono</b>: {{ object.movCon }}</p>
 {% endblock %}

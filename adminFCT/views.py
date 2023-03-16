@@ -566,6 +566,24 @@ class SedeDeleteView(LoginRequiredMixin,DeleteView):
         else:
             raise PermissionDenied
 
+class SedeSearch(LoginRequiredMixin, ListView):
+    login_url = 'login'
+    model = Sede
+    Template_name = 'oferta_list.html'
+    def get_queryset (self):
+        es=user_profesor(self)
+        if es:
+            query = self.request.GET.get("e")
+            query2 = self.request.GET.get("c")
+            obj = Sede.objects.all()
+            if query:
+                obj = obj.filter( Q (empresa__nomEmp__icontains=query))
+            if query2:
+                obj = obj.filter( Q (cpSed__cp__icontains=query2) | Q (cpSed__distri__icontains=query2))
+            return obj
+        else:
+            raise PermissionDenied
+
 
 #vistas de Contacto
 
@@ -611,14 +629,14 @@ class ContactoCreateView(LoginRequiredMixin,CreateView):
         form.save()
         emple = Empleado.objects.create(nomEmp=form.instance.username)
         empre = Empresa.objects.get(nomEmp=EMPRESA_FANTASMA)
-        conta = Contacto.objects.create(user=form.instance, empresa=empre, empleado=emple, mailCon=form.instance.email, movCon='000000')
+        conta = Contacto.objects.create(user=form.instance, empresa=empre, empleado=emple, mailCon=form.instance.email)
         return redirect("contacto-update2", pk=conta.pk)
 
 class ContactoUpdateView(LoginRequiredMixin,UpdateView):
     login_url = 'login'
     model = Contacto
     success_url= reverse_lazy("contacto-list")
-    fields = ['empresa','empleado','mailCon']
+    fields = ['empresa','mailCon','movCon']
     template_name_suffix = '_update_form'
     def get_object(self):
         obj=super().get_object()
@@ -949,15 +967,6 @@ class MensajeListView(LoginRequiredMixin,ListView):
             return obj
         else:
             raise PermissionDenied
-    def get_context_data(self, **kwargs):
-        contex = super(MensajeListView, self).get_context_data(**kwargs)
-        descartados = []
-        object_list = Mensaje.objects.all()
-        for objeto in object_list:
-            if objeto.mensaje_set.all():
-                descartados.append(objeto.pk)
-        contex['descartados'] = descartados
-        return contex
 
 class MensajeDetailView(LoginRequiredMixin,DetailView):
     login_url = 'login'
@@ -1598,7 +1607,7 @@ class OfertaSearch(LoginRequiredMixin, ListView):
             query3 = self.request.GET.get("c")
             query4 = self.request.GET.get("r")
             query5 = self.request.GET.get("p")
-            query6 = self.request.GET.get("f")
+            query6 = self.request.GET.get("h")
             quitar=Empresa.objects.get(nomEmp=EMPRESA_FANTASMA)
             obj = Oferta.objects.all().exclude(empresa=quitar).order_by("-id")
             if query:
@@ -1612,7 +1621,7 @@ class OfertaSearch(LoginRequiredMixin, ListView):
             if query5:
                 obj = obj.filter( Q (competencias__nomPer__icontains=query5))
             if query6:
-                obj = obj.filter( Q (bibliotecas__nomFun__icontains=query6))
+                obj = obj.filter( Q (toolboxes__nomToo__icontains=query6))
             return obj
         else:
             raise PermissionDenied

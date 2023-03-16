@@ -27,7 +27,7 @@ from adminFCT.views import TamanoListView, TamanoCreateView, TamanoUpdateView, T
 from adminFCT.views import EmpresaDeleteView, EmpresaDetailView, EmpresaListView, EmpresaCreateView, EmpresaUpdateView, EmpresaSearch
 from adminFCT.views import CicloListView, CicloCreateView, CicloUpdateView, CicloDeleteView
 from adminFCT.views import TrayectoListView, TrayectoDetailView, TrayectoCreateView, TrayectoUpdateView, TrayectoDeleteView, TrayectoSearch
-from adminFCT.views import SedeListView, SedeDetailView, SedeCreateView, SedeUpdateView, SedeDeleteView
+from adminFCT.views import SedeListView, SedeDetailView, SedeCreateView, SedeUpdateView, SedeDeleteView, SedeSearch
 from adminFCT.views import ContratoListView, ContratoDetailView, ContratoCreateView, ContratoAlumnoCreateView , ContratoUpdateView, ContratoDeleteView, ContratoSearch
 from adminFCT.views import MedioListView, MedioCreateView, MedioUpdateView, MedioDeleteView
 from adminFCT.views import MensajeListView, MensajeDetailView, MensajeCreateView, MensajeRespuestaCreateView, MensajeUpdateView, MensajeDeleteView, MensajeSearch
@@ -97,6 +97,7 @@ urlpatterns = [
     path('sede/add', SedeCreateView.as_view(), name='sede-add'),
     path('sede/<int:pk>/update', SedeUpdateView.as_view(), name='sede-update'),
     path('sede/<int:pk>/delete', SedeDeleteView.as_view(), name='sede-delete'),
+    path('sede/search', SedeSearch.as_view(), name='sede-search'),
 
     #url para contactos
     path('contacto/', ContactoListView.as_view(), name='contacto-list'),

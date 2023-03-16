@@ -22,13 +22,13 @@
                         <input type="search" name="c" placeholder="buscar contacto" class="form-control form-control mr-sm-2" />
                     </div>
                     <div class="col-md-4">
-                        <input type="search" name="r" placeholder="buscar requisito" class="form-control form-control mr-sm-2" />
-                    </div>
-                    <div class="col-md-4">
                         <input type="search" name="p" placeholder="buscar perfil" class="form-control form-control mr-sm-2" />
                     </div>
                     <div class="col-md-4">
-                        <input type="search" name="f" placeholder="buscar funcion" class="form-control form-control mr-sm-2" />
+                        <input type="search" name="r" placeholder="buscar requisito" class="form-control form-control mr-sm-2" />
+                    </div>
+                    <div class="col-md-4">
+                        <input type="search" name="h" placeholder="buscar herramienta" class="form-control form-control mr-sm-2" />
                     </div>
                     <div class="text-end">
                         <button type="submit" value="Save" class="btn btn-sm btn-outline-primary">BUSCAR</button>
@@ -52,23 +52,23 @@
                     {% endif %}
                     {% if oferta.contacto %}
                         <p class="mb-2"><b>Contacto: </b>{{ oferta.contacto.empleado.nomEmp }}</p>
-                    {% endif %}                    
+                    {% endif %}
+                    <p class="mb-2">
+                        <b>Perfile: </b>
+                        {% for perfil in oferta.competencias.all %}
+                            {{ perfil }},
+                        {% endfor %}
+                    </p>         
                     <p class="mb-2">
                         <b>Requisitos: </b>
                         {% for requi in oferta.especifaciones.all %}
-                            {{ requi }}
+                            {{ requi }},
                         {% endfor %}
                     </p>
                     <p class="mb-2">
-                        <b>Perfil: </b>
-                        {% for perfil in oferta.competencias.all %}
-                            {{ perfil }}
-                        {% endfor %}
-                    </p>
-                    <p class="mb-2">
-                        <b>Funciones: </b>
-                        {% for funci in oferta.bibliotecas.all %}
-                            {{ funci }}
+                        <b>Herramientas: </b>
+                        {% for tool in oferta.toolboxes.all %}
+                            {{ tool }},
                         {% endfor %}
                     </p>
                 </div>

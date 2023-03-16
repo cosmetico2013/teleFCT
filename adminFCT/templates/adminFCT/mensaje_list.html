@@ -12,7 +12,7 @@
         </div>
     </div>
     {% for mensaje in object_list %}
-        {% if mensaje.id not in descartados %}
+        {% if not mensaje.mensaje_set.all %}
             <div class="card mb-4">
                 <div class="card-body">
                     <p>{{ mensaje.conte }}</p>
@@ -34,6 +34,6 @@
                     </div>
                 </div>
             </div>
-        {% endif %} 
+        {% endif %}
     {% endfor %}
 {% endblock %}
